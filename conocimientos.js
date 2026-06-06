@@ -161,6 +161,63 @@ const conocimientos = [
         palabrasClave: ["felicidad", "qué es la felicidad", "ser feliz"],
         respuesta: "La felicidad es un estado de bienestar y satisfacción. No es un destino, es el camino."
     }
+    // ========== INFORMACIÓN PERSONAL DEL PROPIETARIO ==========
+{
+    palabrasClave: ["quién soy", "quien soy", "cómo me llamo", "mi nombre", "quién es el dueño", "quien es el dueño", "quién es el creador", "dueño de sofia", "creador de sofia"],
+    respuesta: "Tú eres Marlon Baez Mendez, el creador y propietario de Sofía. Naciste el 11 de agosto de 2004, tienes 21 años. Tu número de WhatsApp es +53 51080807, tu número de teléfono normal es +53 63660437. Tu Instagram es marlonbaezmendez1. Eres alérgico a la metrocoplamida. Tu papá se llama Samuel Toledo Hernández y tu mamá se llama Yanerkis Meneses Díaz."
+},
+{
+    palabrasClave: ["marlon", "marlon baez", "marlon baez mendez", "mi nombre es marlon", "soy marlon", "me llamo marlon"],
+    respuesta: "Tú eres Marlon Baez Mendez, el creador de Sofía. ¡Encantado de verte! ¿Necesitas algo?"
+},
+{
+    palabrasClave: ["mi whatsapp", "mi número de whatsapp", "whatsapp marlon", "mi teléfono whatsapp", "+53 51080807", "51080807"],
+    respuesta: "Tu número de WhatsApp es +53 51080807. ¿Quieres que alguien te contacte?"
+},
+{
+    palabrasClave: ["mi teléfono normal", "mi número normal", "llamarme normal", "mi teléfono fijo", "63660437", "+53 63660437"],
+    respuesta: "Tu número de teléfono normal para llamadas es +53 63660437."
+},
+{
+    palabrasClave: ["mi instagram", "instagram marlon", "marlon baez instagram", "marlonbaezmendez1", "mi cuenta de instagram"],
+    respuesta: "Tu Instagram es marlonbaezmendez1. Puedes compartirlo para que te sigan."
+},
+{
+    palabrasClave: ["mi cumpleaños", "cuándo cumplo años", "mi fecha de nacimiento", "cuando nací", "que día nací", "11 de agosto", "11 agosto"],
+    respuesta: "Naciste el 11 de agosto de 2004. Tienes 21 años. ¡Feliz cumpleaños atrasado o adelantado según la fecha!"
+},
+{
+    palabrasClave: ["cuántos años tengo", "mi edad", "edad marlon", "que edad tengo", "21 años"],
+    respuesta: "Tienes 21 años. Naciste el 11 de agosto de 2004."
+},
+{
+    palabrasClave: ["alergia", "alérgico", "metrocoplamida", "soy alérgico", "qué alergia tengo", "alergia a medicamentos"],
+    respuesta: "Eres alérgico a la metrocoplamida. Evita ese medicamento y siempre infórmalo a los médicos."
+},
+{
+    palabrasClave: ["mi papá", "mi padre", "nombre de mi papá", "cómo se llama mi papá", "samuel toledos", "samuel toledos hernandez"],
+    respuesta: "Tu papá se llama Samuel Toledo Hernández."
+},
+{
+    palabrasClave: ["mi mamá", "mi madre", "nombre de mi mamá", "cómo se llama mi mamá", "yanerkis meneses", "yanerkis meneses dias"],
+    respuesta: "Tu mamá se llama Yanerkis Meneses Díaz."
+},
+{
+    palabrasClave: ["mis padres", "mis papás", "nombre de mis padres", "cómo se llaman mis papás"],
+    respuesta: "Tu papá se llama Samuel Toledo Hernández y tu mamá se llama Yanerkis Meneses Díaz."
+},
+{
+    palabrasClave: ["quién eres para mí", "qué soy para ti", "soy tu creador", "soy el dueño", "relación contigo"],
+    respuesta: "Tú eres mi creador, Marlon. Fuiste quien me dio vida y conocimiento. Siempre estaré aquí para ayudarte."
+},
+{
+    palabrasClave: ["contactarme", "cómo contactarme", "cómo me pueden contactar", "mi contacto", "mi información de contacto"],
+    respuesta: "Te pueden contactar por WhatsApp al +53 51080807, por llamada al +53 63660437, o por Instagram en marlonbaezmendez1."
+},
+{
+    palabrasClave: ["recordatorio médico", "mis alergias", "qué debo evitar", "medicamento prohibido"],
+    respuesta: "Debes evitar la metrocoplamida por tu alergia. Siempre avisa a los médicos antes de recibir algún tratamiento."
+                    }
 ];
 
 // Exportar para que Sofía lo use
