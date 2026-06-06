@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sofía · Asistente Personal</title>
-    
-    <!-- Para instalación como app en iPhone -->
+    <title>Sofía · Asistente Emocional IA</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Sofía">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23f5f5f5'/%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c084fc'/%3E%3Ctext x='50' y='67' font-size='40' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E">
-    
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23c084fc'/%3E%3Ctext x='50' y='67' font-size='45' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -20,21 +17,62 @@
 
         body {
             font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', system-ui;
-            background: #ffffff;
-            color: #1e1e2f;
-            height: 100vh;
+            background: linear-gradient(145deg, #f9fafc, #f3f4f6);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background 0.5s ease;
             overflow: hidden;
         }
 
+        /* Modo buenos días */
+        body.morning {
+            background: linear-gradient(145deg, #fef9e6, #fff4d6);
+        }
+        body.morning::before {
+            content: "☀️";
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 2.5rem;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Modo buenas noches */
+        body.night {
+            background: linear-gradient(145deg, #0f172a, #1e1b4b);
+            color: #e2e8f0;
+        }
+        body.night::before {
+            content: "🌙";
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 2.5rem;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Contenedor principal */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
         .header {
             padding: 1rem;
             text-align: center;
-            border-bottom: 0.5px solid #e2e8f0;
-            background: white;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
-
         .header h1 {
             font-size: 1.4rem;
             background: linear-gradient(135deg, #8b5cf6, #c084fc);
@@ -42,15 +80,13 @@
             -webkit-background-clip: text;
             color: transparent;
         }
-
-        .status-text {
-            text-align: center;
+        .frase-dia {
             font-size: 0.7rem;
             color: #8b5cf6;
-            padding: 0.3rem;
-            font-weight: 500;
+            margin-top: 0.2rem;
         }
 
+        /* Área de chat */
         .chat-container {
             flex: 1;
             overflow-y: auto;
@@ -60,136 +96,184 @@
             gap: 0.8rem;
         }
 
+        /* Mensajes */
         .message {
             display: flex;
             gap: 0.6rem;
             max-width: 85%;
+            animation: fadeIn 0.3s ease;
         }
-
         .user-message {
             align-self: flex-end;
             flex-direction: row-reverse;
         }
-
         .bubble {
             padding: 0.7rem 1rem;
             border-radius: 1.5rem;
             font-size: 0.85rem;
             line-height: 1.4;
+            position: relative;
         }
-
         .user-bubble {
             background: #8b5cf6;
             color: white;
             border-bottom-right-radius: 0.3rem;
         }
-
         .sofi-bubble {
-            background: #f3f4f6;
+            background: rgba(255,255,255,0.9);
             color: #1f2937;
             border-bottom-left-radius: 0.3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
+        body.night .sofi-bubble {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
         .avatar {
             width: 32px;
             height: 32px;
-            background: #c084fc;
+            background: linear-gradient(145deg, #c084fc, #8b5cf6);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
+            transition: 0.2s;
+        }
+        .avatar-animated {
+            animation: bounce 0.3s ease;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        .input-area {
-            background: white;
-            border-top: 0.5px solid #e2e8f0;
-            padding: 0.7rem 1rem;
+        /* Tick de lectura */
+        .read-tick {
+            font-size: 0.6rem;
+            margin-left: 0.3rem;
+            opacity: 0.6;
+        }
+
+        /* Imagen oculta flotante */
+        .hidden-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 4rem;
+            transition: 0.3s ease;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .hidden-image.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Mueca flotante */
+        .floating-avatar {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #c084fc, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 200;
+        }
+        .floating-avatar:active {
+            transform: scale(0.95);
+        }
+
+        /* Teclado emergente */
+        .keyboard-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem;
             display: flex;
             gap: 0.6rem;
-            align-items: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 150;
+            border-top: 0.5px solid #e2e8f0;
         }
-
-        .text-input {
+        body.night .keyboard-area {
+            background: #1e293b;
+        }
+        .keyboard-area.open {
+            transform: translateY(0);
+        }
+        .keyboard-input {
             flex: 1;
-            padding: 0.7rem 1rem;
-            border: 1px solid #e2e8f0;
+            padding: 0.8rem;
             border-radius: 2rem;
-            background: #f9fafb;
-            font-size: 0.85rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            font-size: 0.9rem;
         }
-
-        .text-input:focus {
-            outline: none;
-            border-color: #c084fc;
-        }
-
-        .send-btn {
+        .keyboard-send {
             background: #8b5cf6;
             border: none;
-            padding: 0.6rem 1rem;
+            padding: 0.8rem 1.2rem;
             border-radius: 2rem;
             color: white;
             font-weight: 600;
             cursor: pointer;
         }
 
-        .mic-btn {
-            background: #f3f4f6;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .siri-ball {
+        /* Tarjeta de gratitud */
+        .gratitude-card {
             position: fixed;
-            bottom: 1rem;
+            bottom: 100px;
             left: 50%;
-            transform: translateX(-50%);
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(145deg, #ffffff, #e0e0e0);
-            border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), inset 0 0 0 2px white, inset 0 0 0 4px #c084fc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
+            transform: translateX(-50%) scale(0);
+            background: white;
+            border-radius: 2rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 300;
+            text-align: center;
+            transition: 0.2s;
         }
-
-        .siri-ball-inner {
-            width: 45px;
-            height: 45px;
-            background: radial-gradient(circle, #c084fc, #8b5cf6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .gratitude-card.show {
+            transform: translateX(-50%) scale(1);
+        }
+        body.night .gratitude-card {
+            background: #1e293b;
             color: white;
-            font-size: 1.3rem;
         }
 
-        .listening {
-            animation: pulse 0.8s infinite;
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(139, 92, 246, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .emoji-pop {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 250;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-100px); }
         }
 
         .footer-note {
@@ -202,108 +286,261 @@
 </head>
 <body>
 
-<div class="header">
-    <h1>✨ Sofía · Asistente IA</h1>
-    <div class="status-text" id="statusMsg">🧠 Lista para ayudarte</div>
-</div>
-
-<div class="chat-container" id="chatContainer">
-    <div class="message">
-        <div class="avatar">✨</div>
-        <div class="bubble sofi-bubble">Hola, soy Sofía. Puedes hablarme o escribirme. ¿En qué te ayudo?</div>
+<div class="app-container">
+    <div class="header">
+        <h1>✨ Sofía · Asistente Emocional</h1>
+        <div class="frase-dia" id="fraseDia"></div>
     </div>
+    <div class="chat-container" id="chatContainer">
+        <div class="message">
+            <div class="avatar" id="avatarSofia">✨</div>
+            <div class="bubble sofi-bubble">Hola, soy Sofía. ¿Cómo te sientes hoy? 💜</div>
+        </div>
+    </div>
+    <div class="footer-note">🎤 Toca el avatar para escribir o hablar</div>
 </div>
 
-<div class="input-area">
-    <button class="mic-btn" id="micButton">🎙️</button>
-    <input type="text" id="textInput" class="text-input" placeholder="Escribe a Sofía...">
-    <button class="send-btn" id="sendButton">Enviar</button>
+<div class="floating-avatar" id="floatingAvatar">✨</div>
+
+<div class="keyboard-area" id="keyboardArea">
+    <input type="text" id="keyboardInput" class="keyboard-input" placeholder="Escribe a Sofía..." autocomplete="off">
+    <button class="keyboard-send" id="sendTextBtn">Enviar</button>
 </div>
 
-<div class="siri-ball" id="siriBall">
-    <div class="siri-ball-inner">💬</div>
-</div>
-<div class="footer-note">🎤 Toca la bola para hablar · Escribe para chatear · Funciona sin internet</div>
+<div class="hidden-image" id="hiddenImage">💎</div>
+<div class="gratitude-card" id="gratitudeCard">💜 ¡Gracias a ti! 💜</div>
 
 <script>
-    // ========== MEMORIA DE CONVERSACIÓN ==========
-    let memoria = [];
+    // ========== FRASE DEL DÍA ALEATORIA ==========
+    const frasesDelDia = [
+        "💪 "Hoy es un buen día para empezar algo nuevo"",
+        "🌟 "Eres más fuerte de lo que crees"",
+        "💜 "La felicidad se construye, no se espera"",
+        "🌱 "Pequeños pasos, grandes cambios"",
+        "🎯 "Cree en ti y todo será posible"",
+        "💫 "Tu energía atrae tu realidad"",
+        "🌸 "La vida es hermosa, disfrútala""
+    ];
+    document.getElementById('fraseDia').innerText = frasesDelDia[Math.floor(Math.random() * frasesDelDia.length)];
 
-    // ========== VOZ DEL SISTEMA ==========
+    // ========== REGISTRO DE ESTADO DE ÁNIMO ==========
+    let estadoAnimo = null;
+    setTimeout(() => {
+        if (!estadoAnimo) {
+            addMessage('sofi', "¿Cómo te sientes hoy? Puedes decirme: feliz, triste, cansado, enamorado, etc. 💭");
+        }
+    }, 1500);
+
+    // ========== ELEMENTOS ==========
+    const chatContainer = document.getElementById('chatContainer');
+    const floatingAvatar = document.getElementById('floatingAvatar');
+    const keyboardArea = document.getElementById('keyboardArea');
+    const keyboardInput = document.getElementById('keyboardInput');
+    const sendTextBtn = document.getElementById('sendTextBtn');
+    const avatarSofia = document.getElementById('avatarSofia');
+    const hiddenImageDiv = document.getElementById('hiddenImage');
+    const gratitudeCard = document.getElementById('gratitudeCard');
+
     let synth = window.speechSynthesis;
-    let speaking = false;
+    let recognition = null;
+    let modoEco = false;
+    let ultimaRespuesta = "";
 
-    function hablar(texto) {
-        if (synth.speaking) {
-            synth.cancel();
-        }
-        const utterance = new SpeechSynthesisUtterance(texto);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.95;
-        utterance.pitch = 1.1;
-        synth.speak(utterance);
+    // ========== SONIDO (beep suave) ==========
+    function playSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = 880;
+            gainNode.gain.value = 0.1;
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch(e) { console.log("audio error"); }
     }
 
-    // ========== AGREGAR MENSAJE AL CHAT ==========
-    function addMessage(tipo, texto) {
-        const container = document.getElementById('chatContainer');
-        const div = document.createElement('div');
-        div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
-        if (tipo === 'user') {
-            div.innerHTML = `
-                <div class="avatar">👤</div>
-                <div class="bubble user-bubble">${escapeHtml(texto)}</div>
-            `;
+    // ========== AVATAR ANIMADO ==========
+    function animarAvatar() {
+        avatarSofia.classList.add('avatar-animated');
+        floatingAvatar.style.animation = 'pulse 0.3s ease';
+        setTimeout(() => {
+            avatarSofia.classList.remove('avatar-animated');
+            floatingAvatar.style.animation = '';
+        }, 300);
+    }
+
+    // ========== MOSTRAR IMAGEN OCULTA ==========
+    function mostrarImagenOculta(emoji) {
+        hiddenImageDiv.innerHTML = emoji;
+        hiddenImageDiv.classList.add('show');
+        setTimeout(() => hiddenImageDiv.classList.remove('show'), 2000);
+    }
+
+    // ========== MOSTRAR EMOJI FLOTANTE ==========
+    function mostrarEmojiFlotante(emoji, color) {
+        const emojiDiv = document.createElement('div');
+        emojiDiv.className = 'emoji-pop';
+        emojiDiv.innerHTML = emoji;
+        emojiDiv.style.left = Math.random() * 70 + 15 + '%';
+        emojiDiv.style.bottom = '80px';
+        emojiDiv.style.fontSize = '2.5rem';
+        document.body.appendChild(emojiDiv);
+        setTimeout(() => emojiDiv.remove(), 1000);
+    }
+
+    // ========== TARJETA DE GRATITUD ==========
+    function mostrarTarjetaGratitud() {
+        gratitudeCard.classList.add('show');
+        setTimeout(() => gratitudeCard.classList.remove('show'), 3000);
+    }
+
+    // ========== TICK DE LECTURA ==========
+    function agregarTickLectura(elemento) {
+        const tick = document.createElement('span');
+        tick.className = 'read-tick';
+        tick.innerHTML = '✓✓';
+        elemento.appendChild(tick);
+        setTimeout(() => tick.style.opacity = '1', 500);
+    }
+
+    // ========== MODO SORPRESA ==========
+    function modoSorpresa() {
+        mostrarImagenOculta('🎁✨');
+        mostrarEmojiFlotante('🎉', '#ffd700');
+        addMessage('sofi', '¡Sorpresa! 🎉 Te tengo un regalo virtual: ¡un abrazo enorme! 🤗');
+    }
+
+    // ========== MODO ECO ==========
+    function activarModoEco(texto) {
+        if (modoEco && texto.length > 3) {
+            setTimeout(() => {
+                addMessage('sofi', `¡Eco! ${texto} ... ${texto} ... 📢`);
+            }, 500);
+        }
+    }
+
+    // ========== MENSAJE CON FORMATO ESPECIAL ==========
+    function formatearMensaje(texto) {
+        if (texto.includes('te quiero') || texto.includes('te amo')) {
+            return `<strong>💜 ${texto} 💜</strong>`;
+        } else if (texto.includes('triste') || texto.includes('llorar')) {
+            return `<em style="color:#9ca3af;">${texto} 😢</em>`;
+        } else if (texto.includes('feliz') || texto.includes('alegre')) {
+            return `<strong style="color:#f59e0b;">✨ ${texto} ✨</strong>`;
+        }
+        return texto;
+    }
+
+    // ========== MODO BUENOS DÍAS / BUENAS NOCHES ==========
+    function actualizarModoPorHora() {
+        const hora = new Date().getHours();
+        if (hora < 12) {
+            document.body.classList.add('morning');
+            document.body.classList.remove('night');
+        } else if (hora >= 20) {
+            document.body.classList.add('night');
+            document.body.classList.remove('morning');
         } else {
-            div.innerHTML = `
-                <div class="avatar">✨</div>
-                <div class="bubble sofi-bubble">${escapeHtml(texto)}</div>
-            `;
+            document.body.classList.remove('morning', 'night');
         }
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
     }
+    actualizarModoPorHora();
 
-    // ========== PROCESAR RESPUESTA ==========
-    function procesarPregunta(pregunta) {
-        const lower = pregunta.toLowerCase();
-        
-        // Guardar en memoria
-        memoria.push({ pregunta: pregunta, respuesta: null });
-        if (memoria.length > 10) memoria.shift();
-        
-        let respuesta = null;
-        
-        // Buscar en conocimientos globales
-        if (typeof window.conocimientos !== 'undefined' && window.conocimientos) {
-            for (let item of window.conocimientos) {
-                for (let palabra of item.palabrasClave) {
-                    if (lower.includes(palabra)) {
-                        respuesta = item.respuesta;
-                        break;
+    // ========== AGREGAR MENSAJE CON EFECTO ESCRITURA ==========
+    async function addMessageWithTyping(tipo, texto, callback) {
+        return new Promise((resolve) => {
+            const container = chatContainer;
+            const div = document.createElement('div');
+            div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
+            if (tipo === 'user') {
+                div.innerHTML = `<div class="avatar" style="background:#8b5cf6;">👤</div><div class="bubble user-bubble">${escapeHtml(texto)}</div>`;
+                container.appendChild(div);
+                resolve();
+            } else {
+                div.innerHTML = `<div class="avatar" id="sofiaAvatarMsg">✨</div><div class="bubble sofi-bubble" id="typingBubble"><span class="typing-text"></span><span class="read-tick" style="opacity:0">✓✓</span></div>`;
+                container.appendChild(div);
+                const bubbleText = div.querySelector('.typing-text');
+                const tickSpan = div.querySelector('.read-tick');
+                let i = 0;
+                const formatted = formatearMensaje(texto);
+                const plainText = texto;
+                function type() {
+                    if (i < plainText.length) {
+                        bubbleText.innerHTML = plainText.substring(0, i + 1) + (plainText.length > i + 1 ? '<span style="opacity:0.5;">|</span>' : '');
+                        i++;
+                        setTimeout(type, 30);
+                    } else {
+                        bubbleText.innerHTML = formatted;
+                        setTimeout(() => {
+                            tickSpan.style.opacity = '0.6';
+                            tickSpan.innerHTML = '✓✓';
+                            agregarTickLectura(div);
+                            animarAvatar();
+                        }, 300);
+                        resolve();
                     }
                 }
-                if (respuesta) break;
+                type();
             }
-        }
-        
-        // Respuesta por defecto
-        if (!respuesta) {
-            respuesta = "No tengo información sobre eso. ¿Puedes enseñármela? O pregúntame otra cosa.";
-        }
-        
-        // Actualizar memoria
-        memoria[memoria.length - 1].respuesta = respuesta;
-        addMessage('sofi', respuesta);
-        hablar(respuesta);
-        document.getElementById('statusMsg').innerHTML = '✅ Sofía respondió';
-        setTimeout(() => {
-            document.getElementById('statusMsg').innerHTML = '🎤 Lista para ayudarte';
-        }, 2000);
+            container.scrollTop = container.scrollHeight;
+        });
     }
 
-    // ========== RECONOCIMIENTO DE VOZ ==========
-    let recognition = null;
+    function addMessage(tipo, texto) {
+        addMessageWithTyping(tipo, texto, () => {});
+    }
+
+    // ========== PROCESAR PREGUNTA ==========
+    function procesarPregunta(pregunta) {
+        const lower = pregunta.toLowerCase();
+        let respuesta = "";
+        let emoji = "💜";
+
+        // Estado de ánimo
+        if (lower.includes("triste") || lower.includes("mal") || lower.includes("deprimido")) {
+            respuesta = "Ay, lo siento mucho. Aquí estoy para ti. ¿Quieres hablar de ello? Un abrazo virtual 🤗";
+            emoji = "😢";
+            estadoAnimo = "triste";
+            mostrarEmojiFlotante("😢💔", "#6b7280");
+        } else if (lower.includes("feliz") || lower.includes("contento") || lower.includes("alegre")) {
+            respuesta = "¡Me alegra muchísimo! Que esa felicidad nunca se acabe 🎉✨";
+            emoji = "🎉";
+            estadoAnimo = "feliz";
+            mostrarEmojiFlotante("🎉😊", "#f59e0b");
+        } else if (lower.includes("enamorado") || lower.includes("amor")) {
+            respuesta = "¡Qué bonito! El amor es lindo. ¿Me cuentas más? 💜💕";
+            emoji = "💕";
+            mostrarImagenOculta("💕💜");
+            mostrarEmojiFlotante("💜✨", "#ec4899");
+        } else if (lower.includes("cansado")) {
+            respuesta = "Descansa, mi vida. Mañana será otro día. ¡Duerme bien! 😴";
+            emoji = "😴";
+            estadoAnimo = "cansado";
+        } else if (lower.includes("gracias")) {
+            respuesta = "¡De nada! Para eso estoy. 💜";
+            mostrarTarjetaGratitud();
+            mostrarImagenOculta("💜");
+        } else if (lower.includes("sorpresa")) {
+            modoSorpresa();
+            return;
+        } else if (lower.includes("eco")) {
+            modoEco = !modoEco;
+            respuesta = modoEco ? "¡Modo eco activado! 🔊" : "Modo eco desactivado 🔇";
+        } else if (lower.includes("quien eres")) {
+            respuesta = "Soy Sofía, tu asistente emocional. Estoy aquí para escucharte y ayudarte. 💜";
+        } else {
+            respuesta = "Cuéntame más, quiero ayudarte. ¿Necesitas algo específico? 🧠";
+        }
+
+        addMessage('sofi', respuesta);
+        playSound();
+        if (pregunta.length > 5) activarModoEco(pregunta);
+        animarAvatar();
+    }
+
+    // ========== VOZ ==========
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.lang = 'es-ES';
@@ -311,75 +548,26 @@
         recognition.interimResults = false;
     }
 
-    const siriBall = document.getElementById('siriBall');
-    const micButton = document.getElementById('micButton');
-    const textInput = document.getElementById('textInput');
-    const sendButton = document.getElementById('sendButton');
-
-    // Escuchar desde la bola
-    siriBall.addEventListener('click', () => {
-        if (recognition) {
-            siriBall.classList.add('listening');
-            document.getElementById('statusMsg').innerHTML = '🎤 Escuchando... habla ahora';
-            recognition.start();
-            recognition.onresult = (event) => {
-                const voiceText = event.results[0][0].transcript;
-                document.getElementById('statusMsg').innerHTML = `💬 Dijiste: "${voiceText}"`;
-                addMessage('user', voiceText);
-                procesarPregunta(voiceText);
-                siriBall.classList.remove('listening');
-            };
-            recognition.onend = () => {
-                siriBall.classList.remove('listening');
-                if (document.getElementById('statusMsg').innerHTML.includes('Escuchando')) {
-                    document.getElementById('statusMsg').innerHTML = '🎤 Toca la bola para hablar';
-                }
-            };
-            recognition.onerror = () => {
-                siriBall.classList.remove('listening');
-                document.getElementById('statusMsg').innerHTML = '❌ No te entendí. Toca de nuevo.';
-            };
-        } else {
-            document.getElementById('statusMsg').innerHTML = '⚠️ Voz no soportada. Usa el teclado.';
-        }
-    });
-
-    // Botón de micrófono alternativo
-    micButton.addEventListener('click', () => {
-        siriBall.click();
-    });
-
-    // Enviar texto escrito
-    sendButton.addEventListener('click', () => {
-        const texto = textInput.value.trim();
-        if (texto === '') return;
+    // ========== MANEJAR ENVÍO DE TEXTO ==========
+    function enviarTexto() {
+        const texto = keyboardInput.value.trim();
+        if (texto === "") return;
         addMessage('user', texto);
         procesarPregunta(texto);
-        textInput.value = '';
-    });
-
-    textInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            sendButton.click();
-        }
-    });
-
-    function escapeHtml(str) {
-        return String(str).replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
+        keyboardInput.value = '';
+        keyboardArea.classList.remove('open');
+        document.body.style.overflow = 'auto';
     }
 
-    // Mensaje de bienvenida hablado
-    setTimeout(() => {
-        hablar("Hola, soy Sofía. Estoy lista para ayudarte.");
-    }, 500);
-</script>
+    // ========== EVENTOS ==========
+    floatingAvatar.addEventListener('click', () => {
+        keyboardArea.classList.add('open');
+        keyboardInput.focus();
+    });
 
-<!-- Cargar conocimientos externos -->
-<script src="conocimientos.js"></script>
-</body>
-        </html>
+    sendTextBtn.addEventListener('click', enviarTexto);
+    keyboardInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') enviarTexto();
+    });
+
+    // Cerrar teclado a
