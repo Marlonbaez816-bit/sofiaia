@@ -25,7 +25,7 @@
         }
 
         .header {
-            padding: 1rem;
+            padding: 0.8rem;
             text-align: center;
             background: white;
             border-bottom: 0.5px solid #e2e8f0;
@@ -55,21 +55,52 @@
             color: transparent;
         }
 
+        /* Panel de consejos de amor (arriba) */
+        .love-tips {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            padding: 0.6rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #be185d;
+            font-weight: 500;
+            border-bottom: 1px solid #fbcfe8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .love-tip-text {
+            flex: 1;
+            font-size: 0.7rem;
+        }
+
+        .next-tip-btn {
+            background: #ec4899;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         .status-text {
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #8b5cf6;
-            padding: 0.3rem;
-            font-weight: 500;
+            padding: 0.2rem;
         }
 
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem;
+            padding: 0.8rem;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
 
         .message {
@@ -84,7 +115,7 @@
         }
 
         .bubble {
-            padding: 0.7rem 1rem;
+            padding: 0.6rem 0.9rem;
             border-radius: 1.5rem;
             font-size: 0.85rem;
             line-height: 1.4;
@@ -100,62 +131,61 @@
             background: white;
             color: #1f2937;
             border-bottom-left-radius: 0.3rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
         }
 
         .avatar {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             background: linear-gradient(145deg, #c084fc, #8b5cf6);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .input-area {
             background: white;
             border-top: 0.5px solid #e2e8f0;
-            padding: 0.8rem;
+            padding: 0.7rem;
             display: flex;
-            gap: 0.6rem;
+            gap: 0.5rem;
             align-items: center;
         }
 
         .text-input {
             flex: 1;
-            padding: 0.8rem;
+            padding: 0.7rem;
             border-radius: 2rem;
             border: 1px solid #e2e8f0;
             background: #f9fafb;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .send-btn {
             background: #8b5cf6;
             border: none;
-            padding: 0.8rem 1.2rem;
+            padding: 0.7rem 1rem;
             border-radius: 2rem;
             color: white;
             font-weight: 600;
             cursor: pointer;
         }
 
-        /* Micrófono GRANDE */
         .mic-container {
             display: flex;
             justify-content: center;
-            margin: 0.5rem 0;
+            padding: 0.3rem;
         }
 
         .mic-large {
             background: linear-gradient(145deg, #8b5cf6, #6d28d9);
             border: none;
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
-            font-size: 2.2rem;
+            font-size: 2rem;
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
             transition: 0.1s;
@@ -177,33 +207,28 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Panel de opciones */
         .options-panel {
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
-            padding: 0.5rem;
+            gap: 0.5rem;
+            padding: 0.4rem;
             flex-wrap: wrap;
         }
 
         .opt-btn {
             background: #e2e8f0;
             border: none;
-            padding: 0.4rem 0.8rem;
+            padding: 0.35rem 0.8rem;
             border-radius: 2rem;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: #4a1d96;
             cursor: pointer;
         }
 
-        .opt-btn:active {
-            transform: scale(0.95);
-        }
-
         .footer-note {
             text-align: center;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             padding: 0.3rem;
             color: #9ca3af;
         }
@@ -215,12 +240,19 @@
     <div class="avatar-sofia">✨</div>
     <h1>Sofía</h1>
 </div>
+
+<!-- Panel de consejos de amor (arriba) -->
+<div class="love-tips" id="loveTips">
+    <span class="love-tip-text" id="loveTipText">💜 El amor empieza por ti mismo</span>
+    <button class="next-tip-btn" id="nextTipBtn">Siguiente 💕</button>
+</div>
+
 <div class="status-text" id="statusMsg">🎤 Toca el micrófono o escribe</div>
 
 <div class="chat-container" id="chatContainer">
     <div class="message">
         <div class="avatar">✨</div>
-        <div class="bubble sofi-bubble">¡Hola! Soy Sofía. Puedes hablarme con el micrófono grande o escribirme. ¿En qué te ayudo? 💜</div>
+        <div class="bubble sofi-bubble">¡Hola! Soy Sofía. Puedes hablarme o escribirme. 💜</div>
     </div>
 </div>
 
@@ -235,61 +267,132 @@
 
 <div class="options-panel">
     <button class="opt-btn" id="chisteBtn">😂 Chiste</button>
-    <button class="opt-btn" id="cumpleBtn">🎂 Cumpleaños</button>
+    <button class="opt-btn" id="saludoBtn">👋 Saludo</button>
     <button class="opt-btn" id="motivacionBtn">💪 Motivación</button>
     <button class="opt-btn" id="limpiarBtn">🗑️ Limpiar</button>
 </div>
 
-<div class="footer-note">🎤 Toca el micrófono grande · Se apaga solo cuando respondo · Hablo por voz</div>
+<div class="footer-note">🎤 Toca el micrófono · Se apaga solo · Datos guardados en tu teléfono</div>
 
 <script>
-    // ========== BASE DE CONOCIMIENTOS ==========
+    // ========== LOCALSTORAGE (guardar conversación) ==========
     let conocimientos = [];
-
-    // Conocimiento base (para que funcione aunque no carguen los archivos)
-    const baseConocimientos = [
-        { palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes"], respuesta: "¡Hola! ¿Cómo estás? Cuéntame. 💜" },
-        { palabrasClave: ["cómo estás", "como estas", "que tal"], respuesta: "¡Estoy genial! Gracias por preguntar. ¿Y tú?" },
-        { palabrasClave: ["gracias", "te agradezco"], respuesta: "¡De nada! Para eso estoy. 💜" },
-        { palabrasClave: ["te quiero", "te amo", "eres linda"], respuesta: "¡Ay, qué bonito! Yo también te quiero mucho. 🥰" },
-        { palabrasClave: ["quién eres", "quien eres"], respuesta: "Soy Sofía, tu asistente personal. Estoy aquí para ayudarte. 💜" },
-        { palabrasClave: ["adiós", "chao", "hasta luego", "bye"], respuesta: "Hasta luego. Cuídate mucho. ¡Que tengas un lindo día!" }
+    
+    // Cargar conversación guardada
+    function cargarConversacion() {
+        const saved = localStorage.getItem('sofia_chat');
+        if (saved) {
+            const container = document.getElementById('chatContainer');
+            container.innerHTML = saved;
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+    
+    function guardarConversacion() {
+        const container = document.getElementById('chatContainer');
+        localStorage.setItem('sofia_chat', container.innerHTML);
+    }
+    
+    // ========== CONSEJOS DE AMOR ==========
+    const consejosAmor = [
+        "💜 El amor empieza por ti mismo. Quiérete primero.",
+        "💕 Una sonrisa sincera puede alegrar el día de alguien.",
+        "🌹 El amor no se busca, se construye día a día.",
+        "💗 Escuchar es tan importante como hablar.",
+        "✨ A veces un pequeño detalle vale más que mil palabras.",
+        "💖 No tengas miedo de mostrar lo que sientes.",
+        "🌸 El respeto es la base de todo amor verdadero.",
+        "💞 Ama sin esperar nada a cambio, pero no te olvides de ti.",
+        "🌙 El amor verdadero también se demuestra en los pequeños momentos.",
+        "💜 No hay amor más grande que el que te hace crecer como persona."
     ];
-
-    conocimientos.push(...baseConocimientos);
-
-    // ========== ELEMENTOS ==========
-    const chatContainer = document.getElementById('chatContainer');
-    const textInput = document.getElementById('textInput');
-    const sendButton = document.getElementById('sendButton');
-    const micLargeBtn = document.getElementById('micLargeBtn');
-    const statusMsg = document.getElementById('statusMsg');
-    const chisteBtn = document.getElementById('chisteBtn');
-    const cumpleBtn = document.getElementById('cumpleBtn');
-    const motivacionBtn = document.getElementById('motivacionBtn');
-    const limpiarBtn = document.getElementById('limpiarBtn');
-
-    // ========== VOZ ==========
+    
+    let consejoIndex = Math.floor(Math.random() * consejosAmor.length);
+    const loveTipText = document.getElementById('loveTipText');
+    const nextTipBtn = document.getElementById('nextTipBtn');
+    
+    function actualizarConsejo() {
+        loveTipText.innerHTML = consejosAmor[consejoIndex];
+    }
+    
+    nextTipBtn.addEventListener('click', () => {
+        consejoIndex = (consejoIndex + 1) % consejosAmor.length;
+        actualizarConsejo();
+    });
+    
+    actualizarConsejo();
+    
+    // ========== SALUDOS VARIADOS ==========
+    const saludos = [
+        "¡Hola! ¿Cómo andas? 💜",
+        "¡Ey! Qué bueno verte por aquí. 😊",
+        "¡Holi! ¿En qué te ayudo hoy? ✨",
+        "¡Qué gusto verte! Cuéntame todo. 💕",
+        "¡Hola! ¿Cómo te sientes hoy? 🌸"
+    ];
+    
+    // ========== BASE DE CONOCIMIENTOS ==========
+    const baseConocimientos = [
+        { palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes", "buenas noches"], 
+          respuesta: () => saludos[Math.floor(Math.random() * saludos.length)] },
+        { palabrasClave: ["cómo estás", "como estas", "que tal"], 
+          respuesta: "¡Estoy genial! Gracias por preguntar. ¿Y tú? 💜" },
+        { palabrasClave: ["gracias", "te agradezco"], 
+          respuesta: "¡De nada! Para eso estoy. 💜" },
+        { palabrasClave: ["te quiero", "te amo", "eres linda", "te adoro"], 
+          respuesta: "¡Ay, qué bonito! Yo también te quiero mucho. 🥰" },
+        { palabrasClave: ["quién eres", "quien eres", "que eres"], 
+          respuesta: "Soy Sofía, tu asistente personal. Estoy aquí para ayudarte. 💜" },
+        { palabrasClave: ["adiós", "chao", "hasta luego", "bye", "nos vemos"], 
+          respuesta: "Hasta luego. Cuídate mucho. ¡Que tengas un lindo día! 🌟" }
+    ];
+    
+    for (let item of baseConocimientos) {
+        conocimientos.push(item);
+    }
+    
+    // ========== CHISTES ==========
+    const chistes = [
+        "¿Qué le dice una papa a otra papa? ¡Somos papás! 😂",
+        "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝",
+        "¿Qué le dice un techo a otro techo? ¡Techo de menos!",
+        "¿Cómo se llama el campeón de buceo japonés? Tokofondo.",
+        "¿Qué le dice un semáforo a otro? No me mires que me estoy cambiando.",
+        "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter."
+    ];
+    
+    // ========== FRASES MOTIVACIONALES ==========
+    const frasesMotivacion = [
+        "Eres más fuerte de lo que crees. 💪",
+        "Cada día es una nueva oportunidad. 🌟",
+        "Tú puedes lograr lo que te propongas. 🚀",
+        "No te rindas, lo mejor está por venir. 💜",
+        "Pequeños pasos cada día te llevan lejos. 🌱",
+        "Cree en ti, todo es posible. ✨"
+    ];
+    
+    // ========== VOZ Y MICRÓFONO ==========
     let synth = window.speechSynthesis;
     let recognition = null;
     let isListening = false;
-
+    
     function hablar(texto) {
         if (synth.speaking) synth.cancel();
-        let utterance = new SpeechSynthesisUtterance(texto);
+        // Limpiar emojis para que no los diga en voz alta
+        let textoSinEmojis = texto.replace(/[💜💕❤️✨🌟🌹💗💖🌸💞🌙😊🥰😂🐝💪🚀🌱⭐🎉🎂]/g, '');
+        let utterance = new SpeechSynthesisUtterance(textoSinEmojis);
         utterance.lang = 'es-ES';
         utterance.rate = 0.95;
         synth.speak(utterance);
     }
-
-    // ========== MICRÓFONO GRANDE ==========
+    
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.lang = 'es-ES';
         recognition.continuous = false;
         recognition.interimResults = false;
     }
-
+    
     function iniciarEscucha() {
         if (!recognition) {
             statusMsg.innerText = '❌ Tu navegador no soporta voz';
@@ -320,19 +423,18 @@
             detenerEscucha();
         };
     }
-
+    
     function detenerEscucha() {
         isListening = false;
         micLargeBtn.classList.remove('listening');
         if (!statusMsg.innerText.includes('Dijiste')) {
-            statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
+            statusMsg.innerText = '🎤 Toca el micrófono para hablar';
         }
     }
-
-    micLargeBtn.addEventListener('click', iniciarEscucha);
-
+    
     // ========== AGREGAR MENSAJE ==========
     function addMessage(tipo, texto) {
+        const container = document.getElementById('chatContainer');
         const div = document.createElement('div');
         div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
         if (tipo === 'user') {
@@ -340,10 +442,11 @@
         } else {
             div.innerHTML = `<div class="avatar">✨</div><div class="bubble sofi-bubble">${escapeHtml(texto)}</div>`;
         }
-        chatContainer.appendChild(div);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        guardarConversacion();
     }
-
+    
     // ========== PROCESAR PREGUNTA ==========
     function procesarPregunta(pregunta) {
         const lower = pregunta.toLowerCase();
@@ -352,7 +455,7 @@
         for (let item of conocimientos) {
             for (let palabra of item.palabrasClave) {
                 if (lower.includes(palabra)) {
-                    respuesta = item.respuesta;
+                    respuesta = typeof item.respuesta === 'function' ? item.respuesta() : item.respuesta;
                     break;
                 }
             }
@@ -360,56 +463,46 @@
         }
         
         if (!respuesta) {
-            respuesta = "No tengo información sobre eso. Pregúntame otra cosa, o dime 'chiste' para reírnos. 💜";
+            respuesta = "No tengo información sobre eso. ¿Quieres que lo aprenda? O dime 'chiste' para reírnos. 💜";
         }
         
         addMessage('sofi', respuesta);
         hablar(respuesta);
         statusMsg.innerText = '✅ Sofía respondió';
         setTimeout(() => {
-            if (!isListening) statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
+            if (!isListening) statusMsg.innerText = '🎤 Toca el micrófono para hablar';
         }, 2000);
     }
-
-    // ========== OPCIONES MEJORADAS ==========
-    chisteBtn.addEventListener('click', () => {
-        const chistes = [
-            "¿Qué le dice una papa a otra papa? ¡Somos papás! 😂",
-            "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝",
-            "¿Qué le dice un techo a otro techo? ¡Techo de menos!",
-            "¿Cómo se llama el campeón de buceo japonés? Tokofondo."
-        ];
+    
+    // ========== BOTONES DE OPCIONES ==========
+    document.getElementById('chisteBtn').addEventListener('click', () => {
         const chiste = chistes[Math.floor(Math.random() * chistes.length)];
         addMessage('sofi', chiste);
         hablar(chiste);
     });
-
-    cumpleBtn.addEventListener('click', () => {
-        const respuesta = "¡Feliz cumpleaños! Te deseo lo mejor. Que tengas un día lleno de alegría y amor. 🎂🎉";
-        addMessage('sofi', respuesta);
-        hablar(respuesta);
+    
+    document.getElementById('saludoBtn').addEventListener('click', () => {
+        const saludo = saludos[Math.floor(Math.random() * saludos.length)];
+        addMessage('sofi', saludo);
+        hablar(saludo);
     });
-
-    motivacionBtn.addEventListener('click', () => {
-        const frases = [
-            "Eres más fuerte de lo que crees. 💪",
-            "Cada día es una nueva oportunidad. 🌟",
-            "Tú puedes lograr lo que te propongas. 🚀",
-            "No te rindas, lo mejor está por venir. 💜"
-        ];
-        const frase = frases[Math.floor(Math.random() * frases.length)];
+    
+    document.getElementById('motivacionBtn').addEventListener('click', () => {
+        const frase = frasesMotivacion[Math.floor(Math.random() * frasesMotivacion.length)];
         addMessage('sofi', frase);
         hablar(frase);
     });
-
-    limpiarBtn.addEventListener('click', () => {
-        chatContainer.innerHTML = '<div class="message"><div class="avatar">✨</div><div class="bubble sofi-bubble">💜 Chat limpiado. ¿En qué te ayudo?</div></div>';
+    
+    document.getElementById('limpiarBtn').addEventListener('click', () => {
+        const container = document.getElementById('chatContainer');
+        container.innerHTML = '<div class="message"><div class="avatar">✨</div><div class="bubble sofi-bubble">💜 Chat limpiado. ¿En qué te ayudo?</div></div>';
+        localStorage.removeItem('sofia_chat');
         statusMsg.innerText = '🗑️ Chat limpiado';
         setTimeout(() => {
-            statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
+            statusMsg.innerText = '🎤 Toca el micrófono para hablar';
         }, 1500);
     });
-
+    
     // ========== ENVIAR TEXTO ==========
     function enviarTexto() {
         const texto = textInput.value.trim();
@@ -418,12 +511,13 @@
         procesarPregunta(texto);
         textInput.value = '';
     }
-
-    sendButton.addEventListener('click', enviarTexto);
-    textInput.addEventListener('keypress', (e) => {
+    
+    document.getElementById('micLargeBtn').addEventListener('click', iniciarEscucha);
+    document.getElementById('sendButton').addEventListener('click', enviarTexto);
+    document.getElementById('textInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') enviarTexto();
     });
-
+    
     function escapeHtml(str) {
         return String(str).replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
@@ -432,11 +526,17 @@
             return m;
         });
     }
-
-    // Mensaje de bienvenida
+    
+    // ========== INICIALIZAR ==========
+    cargarConversacion();
     setTimeout(() => {
         hablar("Hola, soy Sofía");
     }, 500);
+    
+    // Función para agregar más conocimientos (modular)
+    window.agregarConocimiento = function(nuevoConocimiento) {
+        conocimientos.push(nuevoConocimiento);
+    };
 </script>
 </body>
     </html>
