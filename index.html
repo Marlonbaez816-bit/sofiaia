@@ -29,6 +29,22 @@
             text-align: center;
             background: white;
             border-bottom: 0.5px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .avatar-sofia {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(145deg, #c084fc, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
         }
 
         .header h1 {
@@ -44,6 +60,7 @@
             font-size: 0.7rem;
             color: #8b5cf6;
             padding: 0.3rem;
+            font-weight: 500;
         }
 
         .chat-container {
@@ -125,20 +142,69 @@
             cursor: pointer;
         }
 
-        .mic-btn {
-            background: #f3f4f6;
+        /* Micrófono GRANDE */
+        .mic-container {
+            display: flex;
+            justify-content: center;
+            margin: 0.5rem 0;
+        }
+
+        .mic-large {
+            background: linear-gradient(145deg, #8b5cf6, #6d28d9);
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 2.2rem;
             cursor: pointer;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+            transition: 0.1s;
+            color: white;
+        }
+
+        .mic-large:active {
+            transform: scale(0.95);
+        }
+
+        .mic-large.listening {
+            background: #ef4444;
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Panel de opciones */
+        .options-panel {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .opt-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #4a1d96;
+            cursor: pointer;
+        }
+
+        .opt-btn:active {
+            transform: scale(0.95);
         }
 
         .footer-note {
             text-align: center;
             font-size: 0.55rem;
-            padding: 0.5rem;
+            padding: 0.3rem;
             color: #9ca3af;
         }
     </style>
@@ -146,30 +212,68 @@
 <body>
 
 <div class="header">
-    <h1>✨ Sofía</h1>
-    <div class="status-text" id="statusMsg">🧠 Lista para ayudarte</div>
+    <div class="avatar-sofia">✨</div>
+    <h1>Sofía</h1>
 </div>
+<div class="status-text" id="statusMsg">🎤 Toca el micrófono o escribe</div>
 
 <div class="chat-container" id="chatContainer">
     <div class="message">
         <div class="avatar">✨</div>
-        <div class="bubble sofi-bubble">Hola, soy Sofía. ¿En qué te ayudo?</div>
+        <div class="bubble sofi-bubble">¡Hola! Soy Sofía. Puedes hablarme con el micrófono grande o escribirme. ¿En qué te ayudo? 💜</div>
     </div>
 </div>
 
+<div class="mic-container">
+    <button class="mic-large" id="micLargeBtn">🎙️</button>
+</div>
+
 <div class="input-area">
-    <button class="mic-btn" id="micButton">🎙️</button>
     <input type="text" id="textInput" class="text-input" placeholder="Escribe a Sofía...">
     <button class="send-btn" id="sendButton">Enviar</button>
 </div>
-<div class="footer-note">🎤 Toca el micrófono para hablar · Escribe para chatear</div>
+
+<div class="options-panel">
+    <button class="opt-btn" id="chisteBtn">😂 Chiste</button>
+    <button class="opt-btn" id="cumpleBtn">🎂 Cumpleaños</button>
+    <button class="opt-btn" id="motivacionBtn">💪 Motivación</button>
+    <button class="opt-btn" id="limpiarBtn">🗑️ Limpiar</button>
+</div>
+
+<div class="footer-note">🎤 Toca el micrófono grande · Se apaga solo cuando respondo · Hablo por voz</div>
 
 <script>
-    // ========== MEMORIA ==========
-    let conocimientosCargados = [];
+    // ========== BASE DE CONOCIMIENTOS ==========
+    let conocimientos = [];
+
+    // Conocimiento base (para que funcione aunque no carguen los archivos)
+    const baseConocimientos = [
+        { palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes"], respuesta: "¡Hola! ¿Cómo estás? Cuéntame. 💜" },
+        { palabrasClave: ["cómo estás", "como estas", "que tal"], respuesta: "¡Estoy genial! Gracias por preguntar. ¿Y tú?" },
+        { palabrasClave: ["gracias", "te agradezco"], respuesta: "¡De nada! Para eso estoy. 💜" },
+        { palabrasClave: ["te quiero", "te amo", "eres linda"], respuesta: "¡Ay, qué bonito! Yo también te quiero mucho. 🥰" },
+        { palabrasClave: ["quién eres", "quien eres"], respuesta: "Soy Sofía, tu asistente personal. Estoy aquí para ayudarte. 💜" },
+        { palabrasClave: ["adiós", "chao", "hasta luego", "bye"], respuesta: "Hasta luego. Cuídate mucho. ¡Que tengas un lindo día!" }
+    ];
+
+    conocimientos.push(...baseConocimientos);
+
+    // ========== ELEMENTOS ==========
+    const chatContainer = document.getElementById('chatContainer');
+    const textInput = document.getElementById('textInput');
+    const sendButton = document.getElementById('sendButton');
+    const micLargeBtn = document.getElementById('micLargeBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    const chisteBtn = document.getElementById('chisteBtn');
+    const cumpleBtn = document.getElementById('cumpleBtn');
+    const motivacionBtn = document.getElementById('motivacionBtn');
+    const limpiarBtn = document.getElementById('limpiarBtn');
 
     // ========== VOZ ==========
     let synth = window.speechSynthesis;
+    let recognition = null;
+    let isListening = false;
+
     function hablar(texto) {
         if (synth.speaking) synth.cancel();
         let utterance = new SpeechSynthesisUtterance(texto);
@@ -178,9 +282,57 @@
         synth.speak(utterance);
     }
 
+    // ========== MICRÓFONO GRANDE ==========
+    if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+    }
+
+    function iniciarEscucha() {
+        if (!recognition) {
+            statusMsg.innerText = '❌ Tu navegador no soporta voz';
+            return;
+        }
+        if (isListening) return;
+        
+        isListening = true;
+        micLargeBtn.classList.add('listening');
+        statusMsg.innerText = '🎤 Escuchando... habla ahora';
+        
+        recognition.start();
+        
+        recognition.onresult = (event) => {
+            const voiceText = event.results[0][0].transcript;
+            statusMsg.innerText = `💬 Dijiste: "${voiceText}"`;
+            addMessage('user', voiceText);
+            procesarPregunta(voiceText);
+            detenerEscucha();
+        };
+        
+        recognition.onend = () => {
+            detenerEscucha();
+        };
+        
+        recognition.onerror = () => {
+            statusMsg.innerText = '❌ No te entendí. Toca de nuevo.';
+            detenerEscucha();
+        };
+    }
+
+    function detenerEscucha() {
+        isListening = false;
+        micLargeBtn.classList.remove('listening');
+        if (!statusMsg.innerText.includes('Dijiste')) {
+            statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
+        }
+    }
+
+    micLargeBtn.addEventListener('click', iniciarEscucha);
+
     // ========== AGREGAR MENSAJE ==========
     function addMessage(tipo, texto) {
-        const container = document.getElementById('chatContainer');
         const div = document.createElement('div');
         div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
         if (tipo === 'user') {
@@ -188,16 +340,16 @@
         } else {
             div.innerHTML = `<div class="avatar">✨</div><div class="bubble sofi-bubble">${escapeHtml(texto)}</div>`;
         }
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     // ========== PROCESAR PREGUNTA ==========
     function procesarPregunta(pregunta) {
         const lower = pregunta.toLowerCase();
         let respuesta = null;
-
-        for (let item of conocimientosCargados) {
+        
+        for (let item of conocimientos) {
             for (let palabra of item.palabrasClave) {
                 if (lower.includes(palabra)) {
                     respuesta = item.respuesta;
@@ -206,64 +358,70 @@
             }
             if (respuesta) break;
         }
-
+        
         if (!respuesta) {
-            respuesta = "No tengo información sobre eso. Pregúntame otra cosa. 💜";
+            respuesta = "No tengo información sobre eso. Pregúntame otra cosa, o dime 'chiste' para reírnos. 💜";
         }
-
+        
         addMessage('sofi', respuesta);
         hablar(respuesta);
-        document.getElementById('statusMsg').innerHTML = '✅ Sofía respondió';
+        statusMsg.innerText = '✅ Sofía respondió';
         setTimeout(() => {
-            document.getElementById('statusMsg').innerHTML = '🎤 Lista para ayudarte';
+            if (!isListening) statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
         }, 2000);
     }
 
-    // ========== RECONOCIMIENTO DE VOZ ==========
-    let recognition = null;
-    if ('webkitSpeechRecognition' in window) {
-        recognition = new webkitSpeechRecognition();
-        recognition.lang = 'es-ES';
-        recognition.continuous = false;
-        recognition.interimResults = false;
-    }
-
-    const micButton = document.getElementById('micButton');
-    const textInput = document.getElementById('textInput');
-    const sendButton = document.getElementById('sendButton');
-
-    micButton.addEventListener('click', () => {
-        if (recognition) {
-            document.getElementById('statusMsg').innerHTML = '🎤 Escuchando... habla ahora';
-            recognition.start();
-            recognition.onresult = (event) => {
-                const voiceText = event.results[0][0].transcript;
-                document.getElementById('statusMsg').innerHTML = `💬 Dijiste: "${voiceText}"`;
-                addMessage('user', voiceText);
-                procesarPregunta(voiceText);
-            };
-            recognition.onend = () => {
-                document.getElementById('statusMsg').innerHTML = '🎤 Toca el micrófono para hablar';
-            };
-            recognition.onerror = () => {
-                document.getElementById('statusMsg').innerHTML = '❌ No te entendí. Toca de nuevo.';
-            };
-        } else {
-            document.getElementById('statusMsg').innerHTML = '⚠️ Voz no soportada. Usa el teclado.';
-        }
+    // ========== OPCIONES MEJORADAS ==========
+    chisteBtn.addEventListener('click', () => {
+        const chistes = [
+            "¿Qué le dice una papa a otra papa? ¡Somos papás! 😂",
+            "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝",
+            "¿Qué le dice un techo a otro techo? ¡Techo de menos!",
+            "¿Cómo se llama el campeón de buceo japonés? Tokofondo."
+        ];
+        const chiste = chistes[Math.floor(Math.random() * chistes.length)];
+        addMessage('sofi', chiste);
+        hablar(chiste);
     });
 
-    // Enviar texto
-    sendButton.addEventListener('click', () => {
+    cumpleBtn.addEventListener('click', () => {
+        const respuesta = "¡Feliz cumpleaños! Te deseo lo mejor. Que tengas un día lleno de alegría y amor. 🎂🎉";
+        addMessage('sofi', respuesta);
+        hablar(respuesta);
+    });
+
+    motivacionBtn.addEventListener('click', () => {
+        const frases = [
+            "Eres más fuerte de lo que crees. 💪",
+            "Cada día es una nueva oportunidad. 🌟",
+            "Tú puedes lograr lo que te propongas. 🚀",
+            "No te rindas, lo mejor está por venir. 💜"
+        ];
+        const frase = frases[Math.floor(Math.random() * frases.length)];
+        addMessage('sofi', frase);
+        hablar(frase);
+    });
+
+    limpiarBtn.addEventListener('click', () => {
+        chatContainer.innerHTML = '<div class="message"><div class="avatar">✨</div><div class="bubble sofi-bubble">💜 Chat limpiado. ¿En qué te ayudo?</div></div>';
+        statusMsg.innerText = '🗑️ Chat limpiado';
+        setTimeout(() => {
+            statusMsg.innerText = '🎤 Toca el micrófono grande para hablar';
+        }, 1500);
+    });
+
+    // ========== ENVIAR TEXTO ==========
+    function enviarTexto() {
         const texto = textInput.value.trim();
-        if (texto === '') return;
+        if (texto === "") return;
         addMessage('user', texto);
         procesarPregunta(texto);
         textInput.value = '';
-    });
+    }
 
+    sendButton.addEventListener('click', enviarTexto);
     textInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendButton.click();
+        if (e.key === 'Enter') enviarTexto();
     });
 
     function escapeHtml(str) {
@@ -275,30 +433,10 @@
         });
     }
 
-    // ========== CARGAR CONOCIMIENTOS ==========
-    window.agregarConocimiento = function(item) {
-        conocimientosCargados.push(item);
-    };
-
-    const archivos = [
-        'conocimientos/01-base.js',
-        'conocimientos/02-personal.js',
-        'conocimientos/03-gracioso.js'
-    ];
-
-    function cargarConocimientos() {
-        archivos.forEach(archivo => {
-            const script = document.createElement('script');
-            script.src = archivo;
-            script.onerror = () => console.log(`No se pudo cargar ${archivo}`);
-            document.head.appendChild(script);
-        });
-    }
-
-    cargarConocimientos();
+    // Mensaje de bienvenida
     setTimeout(() => {
         hablar("Hola, soy Sofía");
     }, 500);
 </script>
 </body>
-</html>
+    </html>
