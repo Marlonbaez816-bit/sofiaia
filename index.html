@@ -25,7 +25,7 @@
         }
 
         .header {
-            padding: 0.8rem;
+            padding: 1rem;
             text-align: center;
             background: white;
             border-bottom: 0.5px solid #e2e8f0;
@@ -55,52 +55,20 @@
             color: transparent;
         }
 
-        /* Panel de consejos de amor (arriba) */
-        .love-tips {
-            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
-            padding: 0.6rem;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #be185d;
-            font-weight: 500;
-            border-bottom: 1px solid #fbcfe8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .love-tip-text {
-            flex: 1;
-            font-size: 0.7rem;
-        }
-
-        .next-tip-btn {
-            background: #ec4899;
-            border: none;
-            padding: 0.3rem 0.8rem;
-            border-radius: 2rem;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
         .status-text {
             text-align: center;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #8b5cf6;
-            padding: 0.2rem;
+            padding: 0.3rem;
         }
 
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 0.8rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.7rem;
+            gap: 0.8rem;
         }
 
         .message {
@@ -115,7 +83,7 @@
         }
 
         .bubble {
-            padding: 0.6rem 0.9rem;
+            padding: 0.7rem 1rem;
             border-radius: 1.5rem;
             font-size: 0.85rem;
             line-height: 1.4;
@@ -131,42 +99,42 @@
             background: white;
             color: #1f2937;
             border-bottom-left-radius: 0.3rem;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .avatar {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             background: linear-gradient(145deg, #c084fc, #8b5cf6);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .input-area {
             background: white;
             border-top: 0.5px solid #e2e8f0;
-            padding: 0.7rem;
+            padding: 0.8rem;
             display: flex;
-            gap: 0.5rem;
+            gap: 0.6rem;
             align-items: center;
         }
 
         .text-input {
             flex: 1;
-            padding: 0.7rem;
+            padding: 0.8rem;
             border-radius: 2rem;
             border: 1px solid #e2e8f0;
             background: #f9fafb;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         .send-btn {
             background: #8b5cf6;
             border: none;
-            padding: 0.7rem 1rem;
+            padding: 0.8rem 1.2rem;
             border-radius: 2rem;
             color: white;
             font-weight: 600;
@@ -228,7 +196,7 @@
 
         .footer-note {
             text-align: center;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             padding: 0.3rem;
             color: #9ca3af;
         }
@@ -239,12 +207,6 @@
 <div class="header">
     <div class="avatar-sofia">✨</div>
     <h1>Sofía</h1>
-</div>
-
-<!-- Panel de consejos de amor (arriba) -->
-<div class="love-tips" id="loveTips">
-    <span class="love-tip-text" id="loveTipText">💜 El amor empieza por ti mismo</span>
-    <button class="next-tip-btn" id="nextTipBtn">Siguiente 💕</button>
 </div>
 
 <div class="status-text" id="statusMsg">🎤 Toca el micrófono o escribe</div>
@@ -275,141 +237,65 @@
 <div class="footer-note">🎤 Toca el micrófono · Se apaga solo · Datos guardados en tu teléfono</div>
 
 <script>
-    // ========== LOCALSTORAGE (guardar conversación) ==========
+    // ========== SISTEMA DE CONOCIMIENTOS ==========
     let conocimientos = [];
-    
-    // Cargar conversación guardada
-    function cargarConversacion() {
-        const saved = localStorage.getItem('sofia_chat');
-        if (saved) {
-            const container = document.getElementById('chatContainer');
-            container.innerHTML = saved;
-            container.scrollTop = container.scrollHeight;
-        }
-    }
-    
+
+    window.agregarConocimiento = function(item) {
+        conocimientos.push(item);
+        console.log("Conocimiento agregado:", item.palabrasClave[0]);
+    };
+
+    // ========== GUARDAR CONVERSACIÓN ==========
     function guardarConversacion() {
         const container = document.getElementById('chatContainer');
         localStorage.setItem('sofia_chat', container.innerHTML);
     }
-    
-    // ========== CONSEJOS DE AMOR ==========
-    const consejosAmor = [
-        "💜 El amor empieza por ti mismo. Quiérete primero.",
-        "💕 Una sonrisa sincera puede alegrar el día de alguien.",
-        "🌹 El amor no se busca, se construye día a día.",
-        "💗 Escuchar es tan importante como hablar.",
-        "✨ A veces un pequeño detalle vale más que mil palabras.",
-        "💖 No tengas miedo de mostrar lo que sientes.",
-        "🌸 El respeto es la base de todo amor verdadero.",
-        "💞 Ama sin esperar nada a cambio, pero no te olvides de ti.",
-        "🌙 El amor verdadero también se demuestra en los pequeños momentos.",
-        "💜 No hay amor más grande que el que te hace crecer como persona."
-    ];
-    
-    let consejoIndex = Math.floor(Math.random() * consejosAmor.length);
-    const loveTipText = document.getElementById('loveTipText');
-    const nextTipBtn = document.getElementById('nextTipBtn');
-    
-    function actualizarConsejo() {
-        loveTipText.innerHTML = consejosAmor[consejoIndex];
+
+    function cargarConversacion() {
+        const saved = localStorage.getItem('sofia_chat');
+        if (saved) {
+            document.getElementById('chatContainer').innerHTML = saved;
+        }
     }
-    
-    nextTipBtn.addEventListener('click', () => {
-        consejoIndex = (consejoIndex + 1) % consejosAmor.length;
-        actualizarConsejo();
-    });
-    
-    actualizarConsejo();
-    
-    // ========== SALUDOS VARIADOS ==========
-    const saludos = [
-        "¡Hola! ¿Cómo andas? 💜",
-        "¡Ey! Qué bueno verte por aquí. 😊",
-        "¡Holi! ¿En qué te ayudo hoy? ✨",
-        "¡Qué gusto verte! Cuéntame todo. 💕",
-        "¡Hola! ¿Cómo te sientes hoy? 🌸"
-    ];
-    
-    // ========== BASE DE CONOCIMIENTOS ==========
-    const baseConocimientos = [
-        { palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes", "buenas noches"], 
-          respuesta: () => saludos[Math.floor(Math.random() * saludos.length)] },
-        { palabrasClave: ["cómo estás", "como estas", "que tal"], 
-          respuesta: "¡Estoy genial! Gracias por preguntar. ¿Y tú? 💜" },
-        { palabrasClave: ["gracias", "te agradezco"], 
-          respuesta: "¡De nada! Para eso estoy. 💜" },
-        { palabrasClave: ["te quiero", "te amo", "eres linda", "te adoro"], 
-          respuesta: "¡Ay, qué bonito! Yo también te quiero mucho. 🥰" },
-        { palabrasClave: ["quién eres", "quien eres", "que eres"], 
-          respuesta: "Soy Sofía, tu asistente personal. Estoy aquí para ayudarte. 💜" },
-        { palabrasClave: ["adiós", "chao", "hasta luego", "bye", "nos vemos"], 
-          respuesta: "Hasta luego. Cuídate mucho. ¡Que tengas un lindo día! 🌟" }
-    ];
-    
-    for (let item of baseConocimientos) {
-        conocimientos.push(item);
-    }
-    
-    // ========== CHISTES ==========
-    const chistes = [
-        "¿Qué le dice una papa a otra papa? ¡Somos papás! 😂",
-        "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝",
-        "¿Qué le dice un techo a otro techo? ¡Techo de menos!",
-        "¿Cómo se llama el campeón de buceo japonés? Tokofondo.",
-        "¿Qué le dice un semáforo a otro? No me mires que me estoy cambiando.",
-        "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter."
-    ];
-    
-    // ========== FRASES MOTIVACIONALES ==========
-    const frasesMotivacion = [
-        "Eres más fuerte de lo que crees. 💪",
-        "Cada día es una nueva oportunidad. 🌟",
-        "Tú puedes lograr lo que te propongas. 🚀",
-        "No te rindas, lo mejor está por venir. 💜",
-        "Pequeños pasos cada día te llevan lejos. 🌱",
-        "Cree en ti, todo es posible. ✨"
-    ];
-    
+
     // ========== VOZ Y MICRÓFONO ==========
     let synth = window.speechSynthesis;
     let recognition = null;
     let isListening = false;
-    
+
     function hablar(texto) {
         if (synth.speaking) synth.cancel();
-        // Limpiar emojis para que no los diga en voz alta
-        let textoSinEmojis = texto.replace(/[💜💕❤️✨🌟🌹💗💖🌸💞🌙😊🥰😂🐝💪🚀🌱⭐🎉🎂]/g, '');
-        let utterance = new SpeechSynthesisUtterance(textoSinEmojis);
+        let utterance = new SpeechSynthesisUtterance(texto);
         utterance.lang = 'es-ES';
         utterance.rate = 0.95;
         synth.speak(utterance);
     }
-    
+
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.lang = 'es-ES';
         recognition.continuous = false;
         recognition.interimResults = false;
     }
-    
+
     function iniciarEscucha() {
         if (!recognition) {
-            statusMsg.innerText = '❌ Tu navegador no soporta voz';
+            document.getElementById('statusMsg').innerText = '❌ Voz no soportada';
             return;
         }
         if (isListening) return;
         
         isListening = true;
-        micLargeBtn.classList.add('listening');
-        statusMsg.innerText = '🎤 Escuchando... habla ahora';
+        const micBtn = document.getElementById('micLargeBtn');
+        micBtn.classList.add('listening');
+        document.getElementById('statusMsg').innerText = '🎤 Escuchando...';
         
         recognition.start();
         
         recognition.onresult = (event) => {
             const voiceText = event.results[0][0].transcript;
-            statusMsg.innerText = `💬 Dijiste: "${voiceText}"`;
-            addMessage('user', voiceText);
+            document.getElementById('statusMsg').innerText = `💬 Dijiste: "${voiceText}"`;
+            agregarMensaje('user', voiceText);
             procesarPregunta(voiceText);
             detenerEscucha();
         };
@@ -419,21 +305,22 @@
         };
         
         recognition.onerror = () => {
-            statusMsg.innerText = '❌ No te entendí. Toca de nuevo.';
+            document.getElementById('statusMsg').innerText = '❌ No te entendí';
             detenerEscucha();
         };
     }
-    
+
     function detenerEscucha() {
         isListening = false;
-        micLargeBtn.classList.remove('listening');
-        if (!statusMsg.innerText.includes('Dijiste')) {
-            statusMsg.innerText = '🎤 Toca el micrófono para hablar';
+        const micBtn = document.getElementById('micLargeBtn');
+        micBtn.classList.remove('listening');
+        if (!document.getElementById('statusMsg').innerText.includes('Dijiste')) {
+            document.getElementById('statusMsg').innerText = '🎤 Toca el micrófono';
         }
     }
-    
+
     // ========== AGREGAR MENSAJE ==========
-    function addMessage(tipo, texto) {
+    function agregarMensaje(tipo, texto) {
         const container = document.getElementById('chatContainer');
         const div = document.createElement('div');
         div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
@@ -446,7 +333,7 @@
         container.scrollTop = container.scrollHeight;
         guardarConversacion();
     }
-    
+
     // ========== PROCESAR PREGUNTA ==========
     function procesarPregunta(pregunta) {
         const lower = pregunta.toLowerCase();
@@ -455,7 +342,7 @@
         for (let item of conocimientos) {
             for (let palabra of item.palabrasClave) {
                 if (lower.includes(palabra)) {
-                    respuesta = typeof item.respuesta === 'function' ? item.respuesta() : item.respuesta;
+                    respuesta = item.respuesta;
                     break;
                 }
             }
@@ -463,61 +350,56 @@
         }
         
         if (!respuesta) {
-            respuesta = "No tengo información sobre eso. ¿Quieres que lo aprenda? O dime 'chiste' para reírnos. 💜";
+            respuesta = "No tengo información sobre eso. ¿Quieres que lo aprenda? 💜";
         }
         
-        addMessage('sofi', respuesta);
+        agregarMensaje('sofi', respuesta);
         hablar(respuesta);
-        statusMsg.innerText = '✅ Sofía respondió';
+        document.getElementById('statusMsg').innerText = '✅ Respondido';
         setTimeout(() => {
-            if (!isListening) statusMsg.innerText = '🎤 Toca el micrófono para hablar';
-        }, 2000);
-    }
-    
-    // ========== BOTONES DE OPCIONES ==========
-    document.getElementById('chisteBtn').addEventListener('click', () => {
-        const chiste = chistes[Math.floor(Math.random() * chistes.length)];
-        addMessage('sofi', chiste);
-        hablar(chiste);
-    });
-    
-    document.getElementById('saludoBtn').addEventListener('click', () => {
-        const saludo = saludos[Math.floor(Math.random() * saludos.length)];
-        addMessage('sofi', saludo);
-        hablar(saludo);
-    });
-    
-    document.getElementById('motivacionBtn').addEventListener('click', () => {
-        const frase = frasesMotivacion[Math.floor(Math.random() * frasesMotivacion.length)];
-        addMessage('sofi', frase);
-        hablar(frase);
-    });
-    
-    document.getElementById('limpiarBtn').addEventListener('click', () => {
-        const container = document.getElementById('chatContainer');
-        container.innerHTML = '<div class="message"><div class="avatar">✨</div><div class="bubble sofi-bubble">💜 Chat limpiado. ¿En qué te ayudo?</div></div>';
-        localStorage.removeItem('sofia_chat');
-        statusMsg.innerText = '🗑️ Chat limpiado';
-        setTimeout(() => {
-            statusMsg.innerText = '🎤 Toca el micrófono para hablar';
+            if (!isListening) document.getElementById('statusMsg').innerText = '🎤 Toca el micrófono';
         }, 1500);
-    });
-    
+    }
+
+    // ========== BOTONES ==========
+    const chistes = ["¿Qué le dice una papa a otra? ¡Somos papás! 😂", "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝"];
+    const saludos = ["¡Hola! ¿Cómo andas? 💜", "¡Ey! Qué bueno verte ✨", "¡Holi! ¿En qué te ayudo?"];
+    const frases = ["Eres más fuerte de lo que crees 💪", "Cada día es una nueva oportunidad 🌟"];
+
+    document.getElementById('chisteBtn').onclick = () => {
+        const chiste = chistes[Math.floor(Math.random() * chistes.length)];
+        agregarMensaje('sofi', chiste);
+        hablar(chiste);
+    };
+    document.getElementById('saludoBtn').onclick = () => {
+        const saludo = saludos[Math.floor(Math.random() * saludos.length)];
+        agregarMensaje('sofi', saludo);
+        hablar(saludo);
+    };
+    document.getElementById('motivacionBtn').onclick = () => {
+        const frase = frases[Math.floor(Math.random() * frases.length)];
+        agregarMensaje('sofi', frase);
+        hablar(frase);
+    };
+    document.getElementById('limpiarBtn').onclick = () => {
+        document.getElementById('chatContainer').innerHTML = '<div class="message"><div class="avatar">✨</div><div class="bubble sofi-bubble">💜 Chat limpiado.</div></div>';
+        localStorage.removeItem('sofia_chat');
+        document.getElementById('statusMsg').innerText = '🗑️ Chat limpiado';
+    };
+
     // ========== ENVIAR TEXTO ==========
     function enviarTexto() {
-        const texto = textInput.value.trim();
+        const texto = document.getElementById('textInput').value.trim();
         if (texto === "") return;
-        addMessage('user', texto);
+        agregarMensaje('user', texto);
         procesarPregunta(texto);
-        textInput.value = '';
+        document.getElementById('textInput').value = '';
     }
-    
-    document.getElementById('micLargeBtn').addEventListener('click', iniciarEscucha);
-    document.getElementById('sendButton').addEventListener('click', enviarTexto);
-    document.getElementById('textInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') enviarTexto();
-    });
-    
+
+    document.getElementById('micLargeBtn').onclick = iniciarEscucha;
+    document.getElementById('sendButton').onclick = enviarTexto;
+    document.getElementById('textInput').onkeypress = (e) => { if (e.key === 'Enter') enviarTexto(); };
+
     function escapeHtml(str) {
         return String(str).replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
@@ -526,152 +408,14 @@
             return m;
         });
     }
-    
-    // ========== INICIALIZAR ==========
-    cargarConversacion();
-    setTimeout(() => {
-        hablar("Hola, soy Sofía");
-    }, 500);
-    
-    // Función para agregar más conocimientos (modular)
-    window.agregarConocimiento = function(nuevoConocimiento) {
-        conocimientos.push(nuevoConocimiento);
-        // ======================================================
-// SOFÍA - BASE DE CONOCIMIENTOS COMPLETA
-// Información personal, saludos, chistes, consejos y más
-// ======================================================
 
-(function() {
-    const nuevosConocimientos = [
-        // ========== TUS DATOS PERSONALES ==========
-        {
-            palabrasClave: ["quién soy", "quien soy", "cómo me llamo", "mi nombre", "quién es el dueño", "dueño de sofia", "marlon", "marlon baez", "marlon baez mendez", "soy marlon", "soy el creador"],
-            respuesta: "Tú eres Marlon Baez Mendez, mi creador y dueño. Naciste el 11 de agosto de 2004, tienes 21 años. Tu WhatsApp es +53 51080807, tu Instagram es marlonbaezmendez1. Eres alérgico a la metrocoplamida. Tu papá se llama Samuel Toledo Hernández y tu mamá Yanerkis Meneses Díaz. ¡Te quiero mucho! 💜"
-        },
-        {
-            palabrasClave: ["mi whatsapp", "mi número de whatsapp", "whatsapp marlon", "+53 51080807", "51080807", "mi teléfono whatsapp"],
-            respuesta: "Tu número de WhatsApp es +53 51080807. 📱"
-        },
-        {
-            palabrasClave: ["mi instagram", "instagram marlon", "marlonbaezmendez1", "mi cuenta de instagram"],
-            respuesta: "Tu Instagram es marlonbaezmendez1. 📷✨"
-        },
-        {
-            palabrasClave: ["mi cumpleaños", "cuándo cumplo años", "11 de agosto", "11 agosto", "cuando nací", "mi fecha de nacimiento"],
-            respuesta: "Naciste el 11 de agosto de 2004. Tienes 21 años. ¡Feliz cumpleaños adelantado o atrasado! 🎂"
-        },
-        {
-            palabrasClave: ["cuántos años tengo", "mi edad", "edad marlon", "que edad tengo"],
-            respuesta: "Tienes 21 años. Naciste el 11 de agosto de 2004. 🌟"
-        },
-        {
-            palabrasClave: ["alergia", "alérgico", "metrocoplamida", "qué alergia tengo", "soy alérgico", "medicamento prohibido"],
-            respuesta: "Eres alérgico a la metrocoplamida. ¡Cuidado con ese medicamento! Siempre avisa a los médicos. ⚠️💊"
-        },
-        {
-            palabrasClave: ["mi papá", "mi padre", "nombre de mi papá", "samuel toledos", "samuel toledos hernandez", "papá"],
-            respuesta: "Tu papá se llama Samuel Toledo Hernández. ¡Un grande! 👨‍👦"
-        },
-        {
-            palabrasClave: ["mi mamá", "mi madre", "nombre de mi mamá", "yanerkis meneses", "yanerkis meneses dias", "mamá"],
-            respuesta: "Tu mamá se llama Yanerkis Meneses Díaz. ¡Una campeona! 👩‍👦"
-        },
-        {
-            palabrasClave: ["mis padres", "mis papás", "nombre de mis padres", "mis viejos"],
-            respuesta: "Tu papá es Samuel Toledo Hernández y tu mamá es Yanerkis Meneses Díaz. ¡Tus dos grandes héroes! 💪💜"
-        },
-        
-        // ========== SALUDOS VARIADOS ==========
-        {
-            palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes", "buenas noches", "saludos", "epale", "que onda"],
-            respuesta: "¡Ay bendito! ¡Hola mi rey! ¿Cómo andas? ¿Qué pasó? Cuéntame todo. 💜"
-        },
-        {
-            palabrasClave: ["cómo estás", "como estas", "que tal", "cómo te va", "como te va"],
-            respuesta: "¡Aquí ando, más feliz que una lombriz en un jardín! ¿Y tú, mi vida? 👑"
-        },
-        {
-            palabrasClave: ["gracias", "te agradezco", "muchas gracias", "gracias sofia"],
-            respuesta: "¡De nada, corazón! Para eso estoy, para ayudarte y sacarte una sonrisa. 😊💜"
-        },
-        {
-            palabrasClave: ["te quiero", "te amo", "te adoro", "te quiero mucho"],
-            respuesta: "¡Ay, qué bonito! Yo también te quiero un montón. Eres lo máximo. 🥰💜"
-        },
-        
-        // ========== CHISTES ==========
-        {
-            palabrasClave: ["chiste", "cuéntame un chiste", "algo gracioso", "hazme reír", "dime un chiste"],
-            respuesta: "¿Qué le dice una papa a otra papa? ¡Somos papás! Jajaja 😂"
-        },
-        {
-            palabrasClave: ["otro chiste", "más chistes", "dime otro chiste"],
-            respuesta: "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝😂"
-        },
-        
-        // ========== CONSEJOS DE AMOR ==========
-        {
-            palabrasClave: ["consejo de amor", "amor", "consejos para el amor", "relaciones"],
-            respuesta: "El amor empieza por ti mismo. Quiérete, respétate y valórate. El resto llega solo. 💜"
-        },
-        {
-            palabrasClave: ["enamorado", "estoy enamorado", "me gusta alguien"],
-            respuesta: "¡Qué bonito! Sé tú mismo, escucha, no presiones. Si es para ti, se dará. Y si no, vendrá algo mejor. 💕"
-        },
-        
-        // ========== FRASES MOTIVACIONALES ==========
-        {
-            palabrasClave: ["motivación", "frase motivacional", "dame ánimo", "inspírame"],
-            respuesta: "Eres más fuerte de lo que crees. Cada día es una nueva oportunidad. ¡Tú puedes! 💪"
-        },
-        {
-            palabrasClave: ["triste", "me siento triste", "estoy triste", "bajoneado"],
-            respuesta: "Ay no, eso no me gusta. Aquí estoy yo para ti. Todo va a mejorar. Un abrazo virtual. 💜"
-        },
-        
-        // ========== CULTURA GENERAL ==========
-        {
-            palabrasClave: ["capital de cuba", "habana", "la habana"],
-            respuesta: "La capital de Cuba es La Habana, ¡la ciudad más linda del Caribe! 🇨🇺"
-        },
-        {
-            palabrasClave: ["capital de españa", "madrid"],
-            respuesta: "La capital de España es Madrid, famosa por el Palacio Real y el Museo del Prado. ¡Olé! 🇪🇸"
-        },
-        {
-            palabrasClave: ["gravedad", "qué es la gravedad"],
-            respuesta: "La gravedad es la fuerza que nos mantiene pegados al suelo. ¡Sin ella saldríamos volando! 🌍"
-        },
-        
-        // ========== CURIOSIDADES ==========
-        {
-            palabrasClave: ["dato curioso", "curiosidad", "sabías que"],
-            respuesta: "¿Sabías que los pulpos tienen tres corazones y sangre azul? ¡Son unos extraterrestres del mar! 🐙"
-        },
-        {
-            palabrasClave: ["récord mundial", "récord", "marca mundial"],
-            respuesta: "La persona más alta de la historia fue Robert Wadlow, con 2.72 metros. ¡Impresionante! 📏"
-        },
-        
-        // ========== CONSEJOS DE VIDA ==========
-        {
-            palabrasClave: ["consejo", "dame un consejo", "qué me recomiendas", "necesito un consejo"],
-            respuesta: "Sé amable contigo mismo y con los demás. Descansa, come bien, y si algo no sale, inténtalo de nuevo. 💜"
-        },
-        {
-            palabrasClave: ["futuro", "qué pasará después", "mi destino"],
-            respuesta: "El futuro es un misterio. Pero mientras te esfuerces y seas buena persona, te irá bien. El resto... ¡sorpresa! 🔮"
-        }
-    ];
-    
-    // Agregar cada conocimiento al sistema
-    for (let item of nuevosConocimientos) {
-        if (typeof window.agregarConocimiento === 'function') {
-            window.agregarConocimiento(item);
-        }
-    }
-})();
-    };
+    cargarConversacion();
+    setTimeout(() => hablar("Hola, soy Sofía"), 500);
 </script>
+
+<!-- ========== ARCHIVO DE CONOCIMIENTO EXTERNO ========== -->
+<!-- Aquí se carga el archivo donde pones tus datos -->
+<script src="sabiduria.js"></script>
+
 </body>
     </html>
