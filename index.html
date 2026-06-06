@@ -536,6 +536,141 @@
     // Función para agregar más conocimientos (modular)
     window.agregarConocimiento = function(nuevoConocimiento) {
         conocimientos.push(nuevoConocimiento);
+        // ======================================================
+// SOFÍA - BASE DE CONOCIMIENTOS COMPLETA
+// Información personal, saludos, chistes, consejos y más
+// ======================================================
+
+(function() {
+    const nuevosConocimientos = [
+        // ========== TUS DATOS PERSONALES ==========
+        {
+            palabrasClave: ["quién soy", "quien soy", "cómo me llamo", "mi nombre", "quién es el dueño", "dueño de sofia", "marlon", "marlon baez", "marlon baez mendez", "soy marlon", "soy el creador"],
+            respuesta: "Tú eres Marlon Baez Mendez, mi creador y dueño. Naciste el 11 de agosto de 2004, tienes 21 años. Tu WhatsApp es +53 51080807, tu Instagram es marlonbaezmendez1. Eres alérgico a la metrocoplamida. Tu papá se llama Samuel Toledo Hernández y tu mamá Yanerkis Meneses Díaz. ¡Te quiero mucho! 💜"
+        },
+        {
+            palabrasClave: ["mi whatsapp", "mi número de whatsapp", "whatsapp marlon", "+53 51080807", "51080807", "mi teléfono whatsapp"],
+            respuesta: "Tu número de WhatsApp es +53 51080807. 📱"
+        },
+        {
+            palabrasClave: ["mi instagram", "instagram marlon", "marlonbaezmendez1", "mi cuenta de instagram"],
+            respuesta: "Tu Instagram es marlonbaezmendez1. 📷✨"
+        },
+        {
+            palabrasClave: ["mi cumpleaños", "cuándo cumplo años", "11 de agosto", "11 agosto", "cuando nací", "mi fecha de nacimiento"],
+            respuesta: "Naciste el 11 de agosto de 2004. Tienes 21 años. ¡Feliz cumpleaños adelantado o atrasado! 🎂"
+        },
+        {
+            palabrasClave: ["cuántos años tengo", "mi edad", "edad marlon", "que edad tengo"],
+            respuesta: "Tienes 21 años. Naciste el 11 de agosto de 2004. 🌟"
+        },
+        {
+            palabrasClave: ["alergia", "alérgico", "metrocoplamida", "qué alergia tengo", "soy alérgico", "medicamento prohibido"],
+            respuesta: "Eres alérgico a la metrocoplamida. ¡Cuidado con ese medicamento! Siempre avisa a los médicos. ⚠️💊"
+        },
+        {
+            palabrasClave: ["mi papá", "mi padre", "nombre de mi papá", "samuel toledos", "samuel toledos hernandez", "papá"],
+            respuesta: "Tu papá se llama Samuel Toledo Hernández. ¡Un grande! 👨‍👦"
+        },
+        {
+            palabrasClave: ["mi mamá", "mi madre", "nombre de mi mamá", "yanerkis meneses", "yanerkis meneses dias", "mamá"],
+            respuesta: "Tu mamá se llama Yanerkis Meneses Díaz. ¡Una campeona! 👩‍👦"
+        },
+        {
+            palabrasClave: ["mis padres", "mis papás", "nombre de mis padres", "mis viejos"],
+            respuesta: "Tu papá es Samuel Toledo Hernández y tu mamá es Yanerkis Meneses Díaz. ¡Tus dos grandes héroes! 💪💜"
+        },
+        
+        // ========== SALUDOS VARIADOS ==========
+        {
+            palabrasClave: ["hola", "buenas", "hey", "hola sofia", "buenos días", "buenas tardes", "buenas noches", "saludos", "epale", "que onda"],
+            respuesta: "¡Ay bendito! ¡Hola mi rey! ¿Cómo andas? ¿Qué pasó? Cuéntame todo. 💜"
+        },
+        {
+            palabrasClave: ["cómo estás", "como estas", "que tal", "cómo te va", "como te va"],
+            respuesta: "¡Aquí ando, más feliz que una lombriz en un jardín! ¿Y tú, mi vida? 👑"
+        },
+        {
+            palabrasClave: ["gracias", "te agradezco", "muchas gracias", "gracias sofia"],
+            respuesta: "¡De nada, corazón! Para eso estoy, para ayudarte y sacarte una sonrisa. 😊💜"
+        },
+        {
+            palabrasClave: ["te quiero", "te amo", "te adoro", "te quiero mucho"],
+            respuesta: "¡Ay, qué bonito! Yo también te quiero un montón. Eres lo máximo. 🥰💜"
+        },
+        
+        // ========== CHISTES ==========
+        {
+            palabrasClave: ["chiste", "cuéntame un chiste", "algo gracioso", "hazme reír", "dime un chiste"],
+            respuesta: "¿Qué le dice una papa a otra papa? ¡Somos papás! Jajaja 😂"
+        },
+        {
+            palabrasClave: ["otro chiste", "más chistes", "dime otro chiste"],
+            respuesta: "¿Qué hace una abeja en el gimnasio? ¡Zum-ba! 🐝😂"
+        },
+        
+        // ========== CONSEJOS DE AMOR ==========
+        {
+            palabrasClave: ["consejo de amor", "amor", "consejos para el amor", "relaciones"],
+            respuesta: "El amor empieza por ti mismo. Quiérete, respétate y valórate. El resto llega solo. 💜"
+        },
+        {
+            palabrasClave: ["enamorado", "estoy enamorado", "me gusta alguien"],
+            respuesta: "¡Qué bonito! Sé tú mismo, escucha, no presiones. Si es para ti, se dará. Y si no, vendrá algo mejor. 💕"
+        },
+        
+        // ========== FRASES MOTIVACIONALES ==========
+        {
+            palabrasClave: ["motivación", "frase motivacional", "dame ánimo", "inspírame"],
+            respuesta: "Eres más fuerte de lo que crees. Cada día es una nueva oportunidad. ¡Tú puedes! 💪"
+        },
+        {
+            palabrasClave: ["triste", "me siento triste", "estoy triste", "bajoneado"],
+            respuesta: "Ay no, eso no me gusta. Aquí estoy yo para ti. Todo va a mejorar. Un abrazo virtual. 💜"
+        },
+        
+        // ========== CULTURA GENERAL ==========
+        {
+            palabrasClave: ["capital de cuba", "habana", "la habana"],
+            respuesta: "La capital de Cuba es La Habana, ¡la ciudad más linda del Caribe! 🇨🇺"
+        },
+        {
+            palabrasClave: ["capital de españa", "madrid"],
+            respuesta: "La capital de España es Madrid, famosa por el Palacio Real y el Museo del Prado. ¡Olé! 🇪🇸"
+        },
+        {
+            palabrasClave: ["gravedad", "qué es la gravedad"],
+            respuesta: "La gravedad es la fuerza que nos mantiene pegados al suelo. ¡Sin ella saldríamos volando! 🌍"
+        },
+        
+        // ========== CURIOSIDADES ==========
+        {
+            palabrasClave: ["dato curioso", "curiosidad", "sabías que"],
+            respuesta: "¿Sabías que los pulpos tienen tres corazones y sangre azul? ¡Son unos extraterrestres del mar! 🐙"
+        },
+        {
+            palabrasClave: ["récord mundial", "récord", "marca mundial"],
+            respuesta: "La persona más alta de la historia fue Robert Wadlow, con 2.72 metros. ¡Impresionante! 📏"
+        },
+        
+        // ========== CONSEJOS DE VIDA ==========
+        {
+            palabrasClave: ["consejo", "dame un consejo", "qué me recomiendas", "necesito un consejo"],
+            respuesta: "Sé amable contigo mismo y con los demás. Descansa, come bien, y si algo no sale, inténtalo de nuevo. 💜"
+        },
+        {
+            palabrasClave: ["futuro", "qué pasará después", "mi destino"],
+            respuesta: "El futuro es un misterio. Pero mientras te esfuerces y seas buena persona, te irá bien. El resto... ¡sorpresa! 🔮"
+        }
+    ];
+    
+    // Agregar cada conocimiento al sistema
+    for (let item of nuevosConocimientos) {
+        if (typeof window.agregarConocimiento === 'function') {
+            window.agregarConocimiento(item);
+        }
+    }
+})();
     };
 </script>
 </body>
