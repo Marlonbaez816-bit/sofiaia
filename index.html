@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sofía · Asistente Personal · Modo Propietario</title>
+    <title>Sofía · Asistente Personal</title>
     
+    <!-- Para instalación como app en iPhone -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Sofía IA">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23f5f5f5'/%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c084fc'/%3E%3Ctext x='50' y='67' font-size='40' text-anchor='middle' fill='white'%3E🔒%3C/text%3E%3C/svg%3E">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sofía">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23f5f5f5'/%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c084fc'/%3E%3Ctext x='50' y='67' font-size='40' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, 'SF Pro Text', system-ui;
+            font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', system-ui;
             background: #ffffff;
             color: #1e1e2f;
             height: 100vh;
@@ -21,22 +27,30 @@
             flex-direction: column;
             overflow: hidden;
         }
+
         .header {
             padding: 1rem;
             text-align: center;
             border-bottom: 0.5px solid #e2e8f0;
             background: white;
         }
-        .header h1 { font-size: 1.4rem; background: linear-gradient(135deg, #8b5cf6, #c084fc); background-clip: text; -webkit-background-clip: text; color: transparent; }
-        .status-owner {
+
+        .header h1 {
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #8b5cf6, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .status-text {
             text-align: center;
             font-size: 0.7rem;
+            color: #8b5cf6;
             padding: 0.3rem;
-            font-weight: bold;
+            font-weight: 500;
         }
-        .locked { color: #dc2626; background: #fee2e2; border-radius: 2rem; width: fit-content; margin: 0 auto; padding: 0.2rem 1rem; }
-        .unlocked { color: #16a34a; background: #dcfce7; border-radius: 2rem; width: fit-content; margin: 0 auto; padding: 0.2rem 1rem; }
-        
+
         .chat-container {
             flex: 1;
             overflow-y: auto;
@@ -45,13 +59,48 @@
             flex-direction: column;
             gap: 0.8rem;
         }
-        .message { display: flex; gap: 0.6rem; max-width: 85%; }
-        .user-message { align-self: flex-end; flex-direction: row-reverse; }
-        .bubble { padding: 0.7rem 1rem; border-radius: 1.5rem; font-size: 0.85rem; }
-        .user-bubble { background: #8b5cf6; color: white; border-bottom-right-radius: 0.3rem; }
-        .sofi-bubble { background: #f3f4f6; color: #1f2937; border-bottom-left-radius: 0.3rem; }
-        .avatar { width: 32px; height: 32px; background: #c084fc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-        
+
+        .message {
+            display: flex;
+            gap: 0.6rem;
+            max-width: 85%;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .bubble {
+            padding: 0.7rem 1rem;
+            border-radius: 1.5rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .user-bubble {
+            background: #8b5cf6;
+            color: white;
+            border-bottom-right-radius: 0.3rem;
+        }
+
+        .sofi-bubble {
+            background: #f3f4f6;
+            color: #1f2937;
+            border-bottom-left-radius: 0.3rem;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: #c084fc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
         .input-area {
             background: white;
             border-top: 0.5px solid #e2e8f0;
@@ -60,6 +109,7 @@
             gap: 0.6rem;
             align-items: center;
         }
+
         .text-input {
             flex: 1;
             padding: 0.7rem 1rem;
@@ -68,9 +118,35 @@
             background: #f9fafb;
             font-size: 0.85rem;
         }
-        .send-btn, .mic-btn { background: #8b5cf6; border: none; padding: 0.6rem 1rem; border-radius: 2rem; color: white; font-weight: 600; cursor: pointer; }
-        .mic-btn { background: #e2e8f0; color: #4a1d96; width: 44px; padding: 0; }
-        
+
+        .text-input:focus {
+            outline: none;
+            border-color: #c084fc;
+        }
+
+        .send-btn {
+            background: #8b5cf6;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mic-btn {
+            background: #f3f4f6;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .siri-ball {
             position: fixed;
             bottom: 1rem;
@@ -80,82 +156,214 @@
             height: 55px;
             background: linear-gradient(145deg, #ffffff, #e0e0e0);
             border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15), inset 0 0 0 2px white, inset 0 0 0 4px #c084fc;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), inset 0 0 0 2px white, inset 0 0 0 4px #c084fc;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 100;
         }
-        .siri-ball-inner { width: 45px; height: 45px; background: radial-gradient(circle, #c084fc, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem; }
-        .listening { animation: pulse 0.8s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); } }
-        .status-text { text-align: center; font-size: 0.65rem; color: #6b7280; padding: 0.3rem; }
-        .footer-note { text-align: center; font-size: 0.55rem; padding: 0.5rem; color: #9ca3af; }
+
+        .siri-ball-inner {
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle, #c084fc, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .listening {
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(139, 92, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.55rem;
+            padding: 0.5rem;
+            color: #9ca3af;
+        }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>🔒 Sofía · Propietario</h1>
-    <div id="ownerStatus" class="status-owner locked">🔒 MODO BLOQUEADO · Solo propietario</div>
+    <h1>✨ Sofía · Asistente IA</h1>
+    <div class="status-text" id="statusMsg">🧠 Lista para ayudarte</div>
 </div>
 
 <div class="chat-container" id="chatContainer">
     <div class="message">
         <div class="avatar">✨</div>
-        <div class="bubble sofi-bubble">🔐 Hola. Este asistente es privado. Registra tu frase secreta para usarme.</div>
+        <div class="bubble sofi-bubble">Hola, soy Sofía. Puedes hablarme o escribirme. ¿En qué te ayudo?</div>
     </div>
 </div>
 
-<div class="input-area" id="inputArea">
-    <button class="mic-btn" id="micButton" disabled>🎙️</button>
-    <input type="text" id="textInput" class="text-input" placeholder="Escribe..." disabled>
-    <button class="send-btn" id="sendButton" disabled>Enviar</button>
+<div class="input-area">
+    <button class="mic-btn" id="micButton">🎙️</button>
+    <input type="text" id="textInput" class="text-input" placeholder="Escribe a Sofía...">
+    <button class="send-btn" id="sendButton">Enviar</button>
 </div>
 
-<div class="siri-ball" id="siriBall" style="opacity:0.5;">
-    <div class="siri-ball-inner">🔒</div>
+<div class="siri-ball" id="siriBall">
+    <div class="siri-ball-inner">💬</div>
 </div>
-<div class="status-text" id="statusMsg">Esperando registro del propietario...</div>
-<div class="footer-note">🔐 Solo el dueño puede usar Sofía · Autenticación por frase secreta</div>
+<div class="footer-note">🎤 Toca la bola para hablar · Escribe para chatear · Funciona sin internet</div>
 
 <script>
-    // ========== SISTEMA DE PROPIETARIO ==========
-    let isOwner = false;
-    let secretPhrase = localStorage.getItem('sofia_secret_phrase');
-    let attempts = 0;
-    
-    const ownerStatusDiv = document.getElementById('ownerStatus');
-    const chatContainer = document.getElementById('chatContainer');
-    const textInput = document.getElementById('textInput');
-    const sendButton = document.getElementById('sendButton');
-    const micButton = document.getElementById('micButton');
-    const siriBall = document.getElementById('siriBall');
-    const statusMsgSpan = document.getElementById('statusMsg');
-    
-    // Síntesis de voz
+    // ========== MEMORIA DE CONVERSACIÓN ==========
+    let memoria = [];
+
+    // ========== VOZ DEL SISTEMA ==========
     let synth = window.speechSynthesis;
+    let speaking = false;
+
     function hablar(texto) {
-        if (synth.speaking) synth.cancel();
-        let utterance = new SpeechSynthesisUtterance(texto);
+        if (synth.speaking) {
+            synth.cancel();
+        }
+        const utterance = new SpeechSynthesisUtterance(texto);
         utterance.lang = 'es-ES';
-        utterance.rate = 0.9;
+        utterance.rate = 0.95;
+        utterance.pitch = 1.1;
         synth.speak(utterance);
     }
-    
+
+    // ========== AGREGAR MENSAJE AL CHAT ==========
     function addMessage(tipo, texto) {
+        const container = document.getElementById('chatContainer');
         const div = document.createElement('div');
         div.className = `message ${tipo === 'user' ? 'user-message' : ''}`;
         if (tipo === 'user') {
-            div.innerHTML = `<div class="avatar">👤</div><div class="bubble user-bubble">${escapeHtml(texto)}</div>`;
+            div.innerHTML = `
+                <div class="avatar">👤</div>
+                <div class="bubble user-bubble">${escapeHtml(texto)}</div>
+            `;
         } else {
-            div.innerHTML = `<div class="avatar">✨</div><div class="bubble sofi-bubble">${escapeHtml(texto)}</div>`;
+            div.innerHTML = `
+                <div class="avatar">✨</div>
+                <div class="bubble sofi-bubble">${escapeHtml(texto)}</div>
+            `;
         }
-        chatContainer.appendChild(div);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
     }
-    
+
+    // ========== PROCESAR RESPUESTA ==========
+    function procesarPregunta(pregunta) {
+        const lower = pregunta.toLowerCase();
+        
+        // Guardar en memoria
+        memoria.push({ pregunta: pregunta, respuesta: null });
+        if (memoria.length > 10) memoria.shift();
+        
+        let respuesta = null;
+        
+        // Buscar en conocimientos globales
+        if (typeof window.conocimientos !== 'undefined' && window.conocimientos) {
+            for (let item of window.conocimientos) {
+                for (let palabra of item.palabrasClave) {
+                    if (lower.includes(palabra)) {
+                        respuesta = item.respuesta;
+                        break;
+                    }
+                }
+                if (respuesta) break;
+            }
+        }
+        
+        // Respuesta por defecto
+        if (!respuesta) {
+            respuesta = "No tengo información sobre eso. ¿Puedes enseñármela? O pregúntame otra cosa.";
+        }
+        
+        // Actualizar memoria
+        memoria[memoria.length - 1].respuesta = respuesta;
+        addMessage('sofi', respuesta);
+        hablar(respuesta);
+        document.getElementById('statusMsg').innerHTML = '✅ Sofía respondió';
+        setTimeout(() => {
+            document.getElementById('statusMsg').innerHTML = '🎤 Lista para ayudarte';
+        }, 2000);
+    }
+
+    // ========== RECONOCIMIENTO DE VOZ ==========
+    let recognition = null;
+    if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+    }
+
+    const siriBall = document.getElementById('siriBall');
+    const micButton = document.getElementById('micButton');
+    const textInput = document.getElementById('textInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Escuchar desde la bola
+    siriBall.addEventListener('click', () => {
+        if (recognition) {
+            siriBall.classList.add('listening');
+            document.getElementById('statusMsg').innerHTML = '🎤 Escuchando... habla ahora';
+            recognition.start();
+            recognition.onresult = (event) => {
+                const voiceText = event.results[0][0].transcript;
+                document.getElementById('statusMsg').innerHTML = `💬 Dijiste: "${voiceText}"`;
+                addMessage('user', voiceText);
+                procesarPregunta(voiceText);
+                siriBall.classList.remove('listening');
+            };
+            recognition.onend = () => {
+                siriBall.classList.remove('listening');
+                if (document.getElementById('statusMsg').innerHTML.includes('Escuchando')) {
+                    document.getElementById('statusMsg').innerHTML = '🎤 Toca la bola para hablar';
+                }
+            };
+            recognition.onerror = () => {
+                siriBall.classList.remove('listening');
+                document.getElementById('statusMsg').innerHTML = '❌ No te entendí. Toca de nuevo.';
+            };
+        } else {
+            document.getElementById('statusMsg').innerHTML = '⚠️ Voz no soportada. Usa el teclado.';
+        }
+    });
+
+    // Botón de micrófono alternativo
+    micButton.addEventListener('click', () => {
+        siriBall.click();
+    });
+
+    // Enviar texto escrito
+    sendButton.addEventListener('click', () => {
+        const texto = textInput.value.trim();
+        if (texto === '') return;
+        addMessage('user', texto);
+        procesarPregunta(texto);
+        textInput.value = '';
+    });
+
+    textInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendButton.click();
+        }
+    });
+
     function escapeHtml(str) {
         return String(str).replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
@@ -164,178 +372,14 @@
             return m;
         });
     }
-    
-    // ========== REGISTRO O VERIFICACIÓN DE FRASE SECRETA ==========
-    function solicitarRegistro() {
-        addMessage('sofi', '🔐 Por favor, registra tu frase secreta (mínimo 4 palabras). Nadie más podrá usarla.');
-        statusMsgSpan.innerText = 'Registro: escribe tu frase secreta (solo una vez)';
-        // Modo registro: el input se habilita temporalmente
-        textInput.disabled = false;
-        sendButton.disabled = false;
-        micButton.disabled = false;
-        siriBall.style.opacity = '1';
-        
-        // Escuchamos una sola vez para registrar
-        const registerHandler = () => {
-            const phrase = textInput.value.trim();
-            if (phrase.length < 10) {
-                addMessage('sofi', '⚠️ La frase debe tener al menos 4 palabras o 10 caracteres. Intenta de nuevo.');
-                return;
-            }
-            localStorage.setItem('sofia_secret_phrase', phrase);
-            secretPhrase = phrase;
-            addMessage('sofi', '✅ Frase registrada con éxito. Ahora, para activar Sofía, di o escribe la frase secreta.');
-            statusMsgSpan.innerText = 'Esperando autenticación...';
-            textInput.value = '';
-            // Cambiamos al modo autenticación
-            textInput.removeEventListener('keypress', registerHandler);
-            sendButton.removeEventListener('click', registerHandler);
-            iniciarAutenticacion();
-        };
-        
-        textInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') registerHandler();
-        });
-        sendButton.addEventListener('click', registerHandler);
-    }
-    
-    function iniciarAutenticacion() {
-        addMessage('sofi', `🔒 Para desbloquearme, escribe o di la frase secreta que registraste.`);
-        statusMsgSpan.innerText = 'Autenticación requerida. Escribe o di tu frase secreta.';
-        textInput.disabled = false;
-        sendButton.disabled = false;
-        micButton.disabled = false;
-        siriBall.style.opacity = '1';
-        
-        const authHandler = () => {
-            const inputText = textInput.value.trim();
-            if (inputText === secretPhrase) {
-                isOwner = true;
-                localStorage.setItem('sofia_owner', 'true');
-                ownerStatusDiv.innerHTML = '🔓 MODO PROPIETARIO · Desbloqueado';
-                ownerStatusDiv.className = 'status-owner unlocked';
-                addMessage('sofi', '🔓 Acceso concedido. Hola, propietario. ¿En qué te ayudo?');
-                statusMsgSpan.innerText = '✅ Autenticado. Puedes hablar o escribir.';
-                hablar('Acceso concedido. Hola propietario.');
-                textInput.disabled = false;
-                // Remover eventos de autenticación y poner modo normal
-                textInput.removeEventListener('keypress', authHandler);
-                sendButton.removeEventListener('click', authHandler);
-                // Habilitar modo normal de preguntas
-                configurarModoNormal();
-            } else {
-                attempts++;
-                if (attempts >= 3) {
-                    addMessage('sofi', '⛔ Demasiados intentos fallidos. Reinicia la página si eres el propietario y recuerda tu frase.');
-                    statusMsgSpan.innerText = 'Bloqueado. Reinicia la página.';
-                    textInput.disabled = true;
-                    sendButton.disabled = true;
-                    micButton.disabled = true;
-                    siriBall.style.opacity = '0.3';
-                } else {
-                    addMessage('sofi', `❌ Frase incorrecta. Te quedan ${3 - attempts} intentos.`);
-                    textInput.value = '';
-                }
-            }
-        };
-        
-        textInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') authHandler();
-        });
-        sendButton.addEventListener('click', authHandler);
-        
-        // También por voz
-        if ('webkitSpeechRecognition' in window) {
-            const recognition = new webkitSpeechRecognition();
-            recognition.lang = 'es-ES';
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            siriBall.onclick = () => {
-                if (isOwner) return; // ya autenticado, no molestar
-                recognition.start();
-                statusMsgSpan.innerText = '🎤 Escuchando frase secreta...';
-                recognition.onresult = (e) => {
-                    const voiceText = e.results[0][0].transcript;
-                    textInput.value = voiceText;
-                    authHandler();
-                };
-                recognition.onend = () => { if (!isOwner) statusMsgSpan.innerText = 'Autenticación por voz. Escribe o habla.'; };
-            };
-        }
-    }
-    
-    // ========== MODO NORMAL (propietario autenticado) ==========
-    let conocimientosBase = [
-        { palabrasClave: ["hola", "buenas", "hola sofia"], respuesta: "¡Hola! ¿En qué puedo ayudarte?" },
-        { palabrasClave: ["como estas", "cómo estás"], respuesta: "Perfecta. ¿Y tú, cómo te sientes?" },
-        { palabrasClave: ["gracias"], respuesta: "De nada. Es un placer." },
-        { palabrasClave: ["quien eres", "quién eres"], respuesta: "Soy Sofía, tu asistente privado. Solo tú puedes usarme." },
-        { palabrasClave: ["chiste"], respuesta: "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!" }
-    ];
-    
-    function procesarPregunta(pregunta) {
-        const lower = pregunta.toLowerCase();
-        let respuesta = null;
-        for (let item of conocimientosBase) {
-            for (let palabra of item.palabrasClave) {
-                if (lower.includes(palabra)) {
-                    respuesta = item.respuesta;
-                    break;
-                }
-            }
-            if (respuesta) break;
-        }
-        if (!respuesta) respuesta = "No tengo información sobre eso. ¿Quieres enseñarme algo nuevo?";
-        addMessage('sofi', respuesta);
-        hablar(respuesta);
-    }
-    
-    function configurarModoNormal() {
-        textInput.disabled = false;
-        sendButton.disabled = false;
-        micButton.disabled = false;
-        siriBall.style.opacity = '1';
-        
-        // Limpiar eventos anteriores
-        const newSendHandler = () => {
-            const txt = textInput.value.trim();
-            if (txt === '') return;
-            addMessage('user', txt);
-            procesarPregunta(txt);
-            textInput.value = '';
-        };
-        sendButton.onclick = newSendHandler;
-        textInput.onkeypress = (e) => { if (e.key === 'Enter') newSendHandler(); };
-        
-        // Voz para propietario
-        if ('webkitSpeechRecognition' in window) {
-            const recognition = new webkitSpeechRecognition();
-            recognition.lang = 'es-ES';
-            recognition.continuous = false;
-            siriBall.onclick = () => {
-                recognition.start();
-                statusMsgSpan.innerText = '🎤 Escuchando...';
-                recognition.onresult = (e) => {
-                    const voiceText = e.results[0][0].transcript;
-                    addMessage('user', voiceText);
-                    procesarPregunta(voiceText);
-                    statusMsgSpan.innerText = '✅ Escuchado';
-                };
-                recognition.onend = () => { statusMsgSpan.innerText = 'Sofía lista'; };
-            };
-        } else {
-            siriBall.onclick = () => statusMsgSpan.innerText = 'Voz no soportada';
-        }
-    }
-    
-    // ========== INICIO ==========
-    if (!secretPhrase) {
-        // No hay frase registrada: modo registro
-        solicitarRegistro();
-    } else {
-        // Ya hay frase: modo autenticación
-        iniciarAutenticacion();
-    }
+
+    // Mensaje de bienvenida hablado
+    setTimeout(() => {
+        hablar("Hola, soy Sofía. Estoy lista para ayudarte.");
+    }, 500);
 </script>
+
+<!-- Cargar conocimientos externos -->
+<script src="conocimientos.js"></script>
 </body>
-  </html>
+        </html>
