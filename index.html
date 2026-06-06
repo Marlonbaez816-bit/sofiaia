@@ -18,7 +18,7 @@
         body {
             font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', system-ui;
             background: #f8fafc;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             transition: background 0.5s ease;
@@ -39,7 +39,7 @@
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
-            flex: 1;
+            height: 100%;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -123,64 +123,37 @@
             font-size: 1rem;
         }
 
-        /* Mueca flotante (la que tocas) */
-        .floating-avatar {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(145deg, #c084fc, #8b5cf6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
-            cursor: pointer;
-            transition: 0.2s;
-            z-index: 200;
-        }
-
-        .floating-avatar:active {
-            transform: scale(0.95);
-        }
-
-        /* Teclado emergente (se abre al tocar la mueca) */
-        .keyboard-area {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
+        /* Input area siempre visible */
+        .input-area {
+            background: white;
+            border-top: 0.5px solid #e2e8f0;
             padding: 0.8rem;
             display: flex;
             gap: 0.6rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: 150;
-            border-top: 0.5px solid #e2e8f0;
+            align-items: center;
         }
 
-        body.night .keyboard-area {
+        body.night .input-area {
             background: #1e293b;
+            border-top-color: #334155;
         }
 
-        .keyboard-area.open {
-            transform: translateY(0);
-        }
-
-        .keyboard-input {
+        .text-input {
             flex: 1;
             padding: 0.8rem;
             border-radius: 2rem;
             border: 1px solid #e2e8f0;
-            background: white;
+            background: #f9fafb;
             font-size: 0.9rem;
         }
 
-        .keyboard-send {
+        body.night .text-input {
+            background: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        .send-btn {
             background: #8b5cf6;
             border: none;
             padding: 0.8rem 1.2rem;
@@ -190,11 +163,27 @@
             cursor: pointer;
         }
 
-        .footer-note {
-            text-align: center;
-            font-size: 0.55rem;
-            padding: 0.5rem;
-            color: #9ca3af;
+        /* Mueca flotante (solo decorativa, ya no es necesaria para el teclado) */
+        .floating-avatar {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(145deg, #c084fc, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 200;
+        }
+
+        .floating-avatar:active {
+            transform: scale(0.95);
         }
 
         /* Emojis flotantes */
@@ -249,6 +238,13 @@
         .hidden-image.show {
             transform: translate(-50%, -50%) scale(1);
         }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.55rem;
+            padding: 0.3rem;
+            color: #9ca3af;
+        }
     </style>
 </head>
 <body>
@@ -264,14 +260,14 @@
             <div class="bubble sofi-bubble">Hola, soy Sofía. ¿En qué te ayudo? 💜</div>
         </div>
     </div>
-    <div class="footer-note">Toca la mueca abajo a la derecha para escribir</div>
+    <div class="input-area">
+        <input type="text" id="textInput" class="text-input" placeholder="Escribe a Sofía...">
+        <button class="send-btn" id="sendButton">Enviar</button>
+    </div>
+    <div class="footer-note">✨ Escribe o toca el avatar para animarme</div>
 </div>
 
 <div class="floating-avatar" id="floatingAvatar">✨</div>
-<div class="keyboard-area" id="keyboardArea">
-    <input type="text" id="keyboardInput" class="keyboard-input" placeholder="Escribe a Sofía...">
-    <button class="keyboard-send" id="sendTextBtn">Enviar</button>
-</div>
 <div class="gratitude-card" id="gratitudeCard">💜 ¡Gracias a ti! 💜</div>
 <div class="hidden-image" id="hiddenImage">💎</div>
 
@@ -282,10 +278,9 @@
 
     // ========== ELEMENTOS ==========
     const chatContainer = document.getElementById('chatContainer');
+    const textInput = document.getElementById('textInput');
+    const sendButton = document.getElementById('sendButton');
     const floatingAvatar = document.getElementById('floatingAvatar');
-    const keyboardArea = document.getElementById('keyboardArea');
-    const keyboardInput = document.getElementById('keyboardInput');
-    const sendTextBtn = document.getElementById('sendTextBtn');
     const gratitudeCard = document.getElementById('gratitudeCard');
     const hiddenImage = document.getElementById('hiddenImage');
 
@@ -314,10 +309,15 @@
     // ========== MODO BUENOS DÍAS / BUENAS NOCHES ==========
     function actualizarModo() {
         const hora = new Date().getHours();
-        if (hora < 12) document.body.classList.add('morning');
-        else document.body.classList.remove('morning');
-        if (hora >= 20) document.body.classList.add('night');
-        else document.body.classList.remove('night');
+        if (hora < 12) {
+            document.body.classList.add('morning');
+            document.body.classList.remove('night');
+        } else if (hora >= 20) {
+            document.body.classList.add('night');
+            document.body.classList.remove('morning');
+        } else {
+            document.body.classList.remove('morning', 'night');
+        }
     }
     actualizarModo();
 
@@ -332,6 +332,10 @@
         }
         chatContainer.appendChild(div);
         chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // Animar avatar flotante
+        floatingAvatar.style.transform = 'scale(1.1)';
+        setTimeout(() => { floatingAvatar.style.transform = 'scale(1)'; }, 200);
     }
 
     // ========== PROCESAR RESPUESTA ==========
@@ -360,6 +364,7 @@
         // Efectos especiales
         if (lower.includes("gracias")) {
             mostrarTarjetaGratitud();
+            mostrarImagenOculta("💜");
         }
         if (lower.includes("amor") || lower.includes("te quiero")) {
             mostrarImagenOculta("💜✨");
@@ -380,12 +385,11 @@
 
     // ========== ENVIAR TEXTO ==========
     function enviarTexto() {
-        const texto = keyboardInput.value.trim();
+        const texto = textInput.value.trim();
         if (texto === "") return;
         addMessage('user', texto);
         procesarPregunta(texto);
-        keyboardInput.value = '';
-        keyboardArea.classList.remove('open');
+        textInput.value = '';
     }
 
     // ========== CARGAR CONOCIMIENTOS ==========
@@ -415,20 +419,16 @@
     }
 
     // ========== EVENTOS ==========
-    floatingAvatar.addEventListener('click', () => {
-        keyboardArea.classList.add('open');
-        keyboardInput.focus();
-    });
-
-    sendTextBtn.addEventListener('click', enviarTexto);
-    keyboardInput.addEventListener('keypress', (e) => {
+    sendButton.addEventListener('click', enviarTexto);
+    textInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') enviarTexto();
     });
 
-    document.addEventListener('click', (e) => {
-        if (!keyboardArea.contains(e.target) && !floatingAvatar.contains(e.target)) {
-            keyboardArea.classList.remove('open');
-        }
+    // Tocar el avatar flotante solo da feedback visual
+    floatingAvatar.addEventListener('click', () => {
+        floatingAvatar.style.transform = 'scale(0.95)';
+        setTimeout(() => { floatingAvatar.style.transform = 'scale(1)'; }, 150);
+        addMessage('sofi', '¡Aquí estoy! ¿Necesitas algo? 💜');
     });
 
     function escapeHtml(str) {
